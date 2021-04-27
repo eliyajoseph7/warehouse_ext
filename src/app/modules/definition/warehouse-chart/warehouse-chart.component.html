@@ -1,0 +1,64 @@
+<div class="row ware w-100">
+    <div class="col-md-2 shadow h-100">
+        <div class="p-2">
+            <h4><strong>MKOA</strong></h4>
+            <hr class="divider-3">
+        </div>
+        <div class="card p-2 mb-2 cont">
+            <div *ngFor="let region of regions; let index=i">
+                <button class="mikoa text-left" id="reg-{{region.id}}" (click)="selectRegion(region.id, $event)" style="width: 100%;">{{region.name}}</button>
+            </div>
+        </div>
+        <div class="p-2">
+            <h4><strong>WILAYA</strong></h4>
+            <hr class="divider-4">
+        </div>
+        <div class="card p-2 cont-1">
+            <div *ngFor="let district of districts; let index=i">
+                <button mat-flat-button class="wilaya text-left" id="reg-{{district.id}}" (click)="selectDistrict(district.id)" style="width: 100%;">{{district.name}}</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-10">
+        <div class="row w-100">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="p-2">
+                        <p><strong>Ownership</strong></p>
+                        <hr class="divider-1" />
+                        <div class="d-flex justify-content-between pt-2 button bt-1">
+                            <button mat-raised-button class="btn btn-light col-md-6 mr-1 gvt" [ngClass]="neutral == 'neutral' || neutral == 'gvt' ? 'neutral': 'gvt'" (click)="ownership('gvt')">Government</button>
+                            <button mat-raised-button class="btn btn-light col-md-6 prt" [ngClass]="neutral == 'neutral' || neutral == 'prt' ? 'neutral': 'prt'" (click)="ownership('prt')">Private</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-2">
+                    <div class="p-2">
+                        <p><strong>Registration</strong></p>
+                        <hr class="divider-2" />
+                        <div class="d-flex justify-content-between pt-2 button">
+                            <button mat-raised-button class="btn btn-light col-md-6 mr-1 yes" [ngClass]="normal == 'normal' || normal == 'yes' ? 'normal': 'yes'" (click)="registration('yes')">Yes</button>
+                            <button mat-raised-button class="btn btn-light col-md-6 no" [ngClass]="normal == 'normal' || normal == 'no' ? 'normal': 'no'" (click)="registration('no')">No</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="">
+                    <div class="capacity"></div>
+                    <div class="bottoml mt-2"></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="location"></div>
+                <div class="grade mt-2"></div>
+                <div class="bottomc mt-2"></div>
+            </div>
+            <div class="col-md-4">
+                <div class="right"></div>
+                <div class="ownership mt-2"></div>
+                <div class="ownershipreg mt-2"></div>
+            </div>
+        </div>
+    </div>
+</div>

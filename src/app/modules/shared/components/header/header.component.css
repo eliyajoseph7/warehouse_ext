@@ -1,0 +1,28 @@
+header {
+    background-color: #385623;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 2px;
+}
+
+.logo {
+    height: 60px;
+    width: 60px;
+    margin-right: 20px;
+    /* margin-top: 15px; */
+    cursor: pointer;
+}
+
+.logo-title {
+    display: flex;
+    flex-direction: row;
+    padding-left: 15px;
+}
+
+.title {
+    /* line-height: 20px; */
+    color: #fff;
+    font-size: 19px;
+    padding-top: 5px;
+}

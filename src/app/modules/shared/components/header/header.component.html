@@ -1,0 +1,31 @@
+<header class="mat-elevation-z2" style="margin-bottom: 0px;">
+    <div class="logo-title">
+        <img src="assets/tz_logo.png" class="logo">
+        <div style="display: flex;flex-direction: column;">
+            <h5 class="zero-margin title">THE UNITED REPUBLIC OF TANZANIA</h5>
+            <h5 class="zero-margin title">MINISTRY OF AGRICULTURE</h5>
+            <!-- <p class="zero-margin title">Agriculture Dashboard</p> -->
+        </div>
+    </div>
+    <!-- <div class="right-part">
+     <div  style="display: flex; flex-direction: row; height: 1em;">
+       <h5 style="margin-right: 1em; font-size:medium; color: gray;cursor: pointer; margin-top: 20px;" (click)="onAboutUs()">
+         ABOUT US
+       </h5>
+       <mat-divider *ngIf="!authService.isAuth" [vertical] = "true" style="height: 1.5em; margin-top: 1em; border-right-width: 2px;"></mat-divider>
+       <h5 *ngIf="!authService.isAuth" (click)="toLogin()" style="margin-left: 1em; font-size:medium; margin-right: 1em; color: gray; cursor: pointer; margin-top: 20px;">
+         LOGIN
+       </h5>
+     </div> -->
+    <div *ngIf="">
+        <div class="account">
+            <h3 class="zero-margin account-name" [matMenuTriggerFor]="menu">{{usernameInitial}}</h3>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="onLogout()">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Logout</span>
+          </button>
+            </mat-menu>
+        </div>
+    </div>
+</header>
