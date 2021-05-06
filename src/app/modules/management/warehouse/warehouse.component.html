@@ -1,0 +1,40 @@
+<div class="">
+    <div class="d-flex justify-content-between head">
+        <div>
+            <h3>Manage warehouses</h3>
+        </div>
+        <button mat-button (click)="onAddWarehouse()"><span class="material-icons">add_circle_outline</span>Add warehouse</button>
+    </div>
+    <div class="view">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="dtb" class="table p-3">
+            <thead>
+                <tr>
+                    <th>Warehouse Name</th>
+                    <th>Capacity</th>
+                    <th>Type</th>
+                    <th>Licensed By</th>
+                    <th>Grade</th>
+                    <th>Region</th>
+                    <th>District</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr *ngFor="let warehouse of warehouses">
+                    <td>{{warehouse.name}}</td>
+                    <td>{{warehouse.capacity}}</td>
+                    <td>{{warehouse.type}}</td>
+                    <td>{{warehouse.licensed_by}}</td>
+                    <td>{{warehouse.grade}}</td>
+                    <td>{{warehouse.region}}</td>
+                    <td>{{warehouse.district}}</td>
+                    <td style="display: flex; flex-direction: row;">
+                        <mat-icon class="text-success act" (click)="editWarehouse(warehouse.id, warehouse.region_id)">update</mat-icon>
+                        <mat-icon class="text-danger act" (click)="deleteWarehouse(warehouse.id)">delete_forever</mat-icon>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+.red-delete-btn {
+    color: whitesmoke;
+    background-color: #a81f1f !important;
+}
+
+.delete-btn {
+    border: 2px solid #116B38;
+    color: #116B38 !important;
+    margin-right: 20px;
+    background-color: whitesmoke !important;
+}
+
+.spinner-holder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    background-color: white;
+}
+
+:host /deep/.mat-progress-spinner circle,
+.mat-spinner circle {
+    stroke: #116B38 !important;
+}

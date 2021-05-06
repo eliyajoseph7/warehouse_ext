@@ -1,0 +1,28 @@
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table p-3">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Trader Name</th>
+            <th>Crop Name</th>
+            <th>Amount Transferred</th>
+            <th>From(council)</th>
+            <th>To(council)</th>
+            <th>Action</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        <tr *ngFor="let stock of stocks">
+            <td>{{stock.date}}</td>
+            <td>{{stock.trader_name}}</td>
+            <td>{{stock.crop}}</td>
+            <td>{{stock.amount}}</td>
+            <td>{{stock.from.name}}</td>
+            <td>{{stock.to.name}}</td>
+            <td style="display: flex; flex-direction: row;">
+                <mat-icon class="text-success act" (click)="editStock(stock.id, stock.region.id)">update</mat-icon>
+                <mat-icon class="text-danger act" (click)="deleteStock(stock.id)">delete_forever</mat-icon>
+            </td>
+        </tr>
+    </tbody>
+</table>

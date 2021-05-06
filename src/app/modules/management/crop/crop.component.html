@@ -1,0 +1,33 @@
+<div>
+    <div class="d-flex justify-content-between head">
+        <div>
+            <h3>Manage Crops</h3>
+        </div>
+        <button mat-button (click)="onAddCrop()"><span class="material-icons">add_circle_outline</span>Add Crop</button>
+    </div>
+    <div class="col-md-8">
+        <div class="view">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table p-3">
+                <thead>
+                    <tr>
+                        <th>Crop Name</th>
+                        <th>Crop Grade</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr *ngFor="let crop of crops">
+                        <td>{{crop.name}}</td>
+                        <td>{{crop.grade}}</td>
+                        <td style="display: flex; flex-direction: row;">
+                            <mat-icon class="text-success act" (click)="editCrop(crop.id)">update</mat-icon>
+                            <mat-icon class="text-danger act" (click)="deleteCrop(crop.id)">delete_forever</mat-icon>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,17 @@
+mat-sidenav-container {
+    /* margin-top: 1000px; */
+    position: absolute;
+    top: 80px !important;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    background-color: transparent;
+}
+
+mat-sidenav {
+    width: 250px;
+}
+
+mat-list {
+    display: block;
+}

@@ -1,0 +1,140 @@
+<form *ngIf="data.action == 'add'" [formGroup]="warehouseForm" (ngSubmit)="onSubmit()">
+    <div class="title-holder">
+        <h2 class="title">Add Warehouse</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Warehouse Name</mat-label>
+                <input matInput placeholder="Warehouse Name" formControlName="name" required>
+            </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Warehouse Grade</mat-label>
+                <mat-select placeholder="Select Grade" formControlName="grade" required>
+                    <mat-option value="Grade A">Grade A</mat-option>
+                    <mat-option value="Grade B">Grade B</mat-option>
+                    <mat-option value="Grade C">Grade C</mat-option>
+                    <mat-option value="Grade D">Grade D</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="col-lg-12 column">
+        <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Licensed By</mat-label>
+            <input matInput placeholder="Licensed By" formControlName="licensed_by">
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Warehouse capacity</mat-label>
+                <input matInput type="number" placeholder="Warehouse capacity" formControlName="capacity" required>
+            </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Warehouse Type</mat-label>
+                <mat-select placeholder="Select type" formControlName="type" required>
+                    <mat-option value="public">Public</mat-option>
+                    <mat-option value="private">Private</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="col-lg-12 column">
+        <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Regions</mat-label>
+            <mat-select placeholder="Select Region" formControlName="regionId" required (selectionChange)="getDistricts($event.value)">
+                <mat-option *ngFor="let region of regions" [value]="region.id">{{region.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="col-lg-12 column">
+        <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Districts</mat-label>
+            <mat-select placeholder="Select District" formControlName="districtId" required>
+                <mat-option *ngFor="let district of districts" [value]="district.id">{{district.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div style="margin-top: 30px; display: flex; flex-direction: row; justify-content: flex-end;">
+        <button (click)="onNoclick()" class="cancelbtn" mat-button>Cancel</button>
+
+        <button type="submit" class="createbtn" mat-button>Submit</button>
+    </div>
+</form>
+
+<!-- Update Warehouse -->
+<form *ngIf="data.action == 'edit'" [formGroup]="editForm" (ngSubmit)="onUpdate()">
+    <div class="title-holder">
+        <h2 class="title">Update Warehouse</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Warehouse Name</mat-label>
+                <input matInput placeholder="Warehouse Name" formControlName="name" required>
+            </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Warehouse Grade</mat-label>
+                <mat-select placeholder="Select Grade" formControlName="grade" required>
+                    <mat-option value="Grade A">Grade A</mat-option>
+                    <mat-option value="Grade B">Grade B</mat-option>
+                    <mat-option value="Grade C">Grade C</mat-option>
+                    <mat-option value="Grade D">Grade D</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="col-lg-12 column">
+        <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Licensed By</mat-label>
+            <input matInput placeholder="Licensed By" formControlName="licensed_by">
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Warehouse capacity</mat-label>
+                <input matInput type="number" placeholder="Warehouse capacity" formControlName="capacity" required>
+            </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Warehouse Type</mat-label>
+                <mat-select placeholder="Select type" formControlName="type" required>
+                    <mat-option value="public">Public</mat-option>
+                    <mat-option value="private">Private</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="col-lg-12 column">
+        <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Regions</mat-label>
+            <mat-select placeholder="Select Region" formControlName="regionId" required (selectionChange)="getDistricts($event.value)">
+                <mat-option *ngFor="let region of regions" [value]="region.id">{{region.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="col-lg-12 column">
+        <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Districts</mat-label>
+            <mat-select placeholder="Select District" formControlName="districtId" required>
+                <mat-option *ngFor="let district of districts" [value]="district.id">{{district.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div style="margin-top: 30px; display: flex; flex-direction: row; justify-content: flex-end;">
+        <button (click)="onNoclick()" class="cancelbtn" mat-button>Cancel</button>
+
+        <button type="submit" class="createbtn" mat-button>Update</button>
+    </div>
+</form>

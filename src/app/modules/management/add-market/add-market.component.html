@@ -1,0 +1,86 @@
+<form *ngIf="data.action == 'add'" [formGroup]="marketForm" (ngSubmit)="onSubmit()">
+    <div class="title-holder">
+        <h2 class="title">Add Market</h2>
+    </div>
+    <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Market Name</mat-label>
+        <input matInput placeholder="Market Name" formControlName="name" required>
+        <mat-error *ngIf="marketForm.get('name').invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Market Type</mat-label>
+        <mat-select placeholder="Select Type" formControlName="type" required>
+            <mat-option value="small">Small</mat-option>
+            <mat-option value="major">Major</mat-option>
+        </mat-select>
+        <mat-error *ngIf="marketForm.get('type').invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <div class="col-lg-12 column">
+        <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Regions</mat-label>
+            <mat-select placeholder="Select Region" formControlName="regionId" required (selectionChange)="getDistricts($event.value)">
+                <mat-option *ngFor="let region of regions" [value]="region.id">{{region.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="marketForm.get('regionId').invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="col-lg-12 column">
+        <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Districts</mat-label>
+            <mat-select placeholder="Select District" formControlName="districtId" required>
+                <mat-option *ngFor="let district of districts" [value]="district.id">{{district.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="marketForm.get('districtId').invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+    </div>
+
+    <div style="margin-top: 30px; display: flex; flex-direction: row; justify-content: flex-end;">
+        <button (click)="onNoClick()" class="cancelbtn" mat-button>Cancel</button>
+
+        <button type="submit" class="createbtn" mat-button>Submit</button>
+    </div>
+</form>
+
+
+<form *ngIf="data.action == 'edit'" [formGroup]="marketFormEdit" (ngSubmit)="onUpdate()">
+    <div class="title-holder">
+        <h2 class="title">Edit Market</h2>
+    </div>
+    <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Market Name</mat-label>
+        <input matInput placeholder="Market Name" formControlName="name" required>
+        <mat-error *ngIf="marketForm.get('name').invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Market Type</mat-label>
+        <mat-select placeholder="Select Type" formControlName="type" required>
+            <mat-option value="small">Small</mat-option>
+            <mat-option value="major">Major</mat-option>
+        </mat-select>
+        <mat-error *ngIf="marketForm.get('type').invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <div class="col-lg-12 column">
+        <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Regions</mat-label>
+            <mat-select placeholder="Select Region" formControlName="regionId" required (selectionChange)="getDistricts($event.value)">
+                <mat-option *ngFor="let region of regions" [value]="region.id">{{region.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="marketForm.get('regionId').invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="col-lg-12 column">
+        <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Districts</mat-label>
+            <mat-select placeholder="Select District" formControlName="districtId" required>
+                <mat-option *ngFor="let district of districts" [value]="district.id">{{district.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="marketForm.get('districtId').invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+    </div>
+
+    <div style="margin-top: 30px; display: flex; flex-direction: row; justify-content: flex-end;">
+        <button (click)="onNoClick()" class="cancelbtn" mat-button>Cancel</button>
+
+        <button type="submit" class="createbtn" mat-button>Update</button>
+    </div>
+</form>
