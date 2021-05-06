@@ -1,4 +1,87 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@import "~@angular/cdk/overlay-prebuilt.css";
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    /* font-family: Roboto, "Helvetica Neue", sans-serif;  */
+    font-family: "Signika", sans-serif;
+}
+
+.head {
+    background-color: #fff;
+    padding: 10px;
+}
+
+.view {
+    background-color: #fff;
+    padding: 20px;
+    margin: 5px;
+}
+
+table {
+    font-family: arial, sans-serif !important;
+    border-collapse: collapse !important;
+    width: 100% !important;
+    padding: 180px !important;
+}
+
+td,
+th {
+    border: 1px solid #dddddd !important;
+    text-align: left;
+    padding: 8px;
+}
+
+tr {
+    border: 1px solid #dddddd !important;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd !important;
+}
+
+button {
+    background-color: #116B38 !important;
+    color: whitesmoke !important;
+    font-size: 'signika', 'sans-serif';
+}
+
+.title {
+    color: #116B38;
+}
+
+.column {
+    padding: 0;
+}
+
+.cancelbtn {
+    border: 2px solid #116B38;
+    color: #116B38 !important;
+    margin-right: 20px;
+    background-color: whitesmoke !important;
+    width: 25%;
+}
+
+.createbtn {
+    background-color: #116B38;
+    color: whitesmoke !important;
+    /* padding: 8px; */
+    width: 25%;
+}
+
+.act {
+    cursor: pointer;
+}
+
+.font {
+    font-family: 'Signika', sans-serif;
+}
+
+.btn-success {
+    background-color: #117a28 !important;
+}

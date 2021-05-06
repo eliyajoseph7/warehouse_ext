@@ -93,7 +93,8 @@ hr.divider-4 {
     overflow: auto;
 }
 
-.mikoa {
+
+/* .mikoa {
     background-color: #FFE699;
     margin-top: 5px;
     color: black;
@@ -102,8 +103,10 @@ hr.divider-4 {
     width: auto;
     border: thin solid rgb(204, 201, 201);
     border-radius: 5%;
-}
+} */
 
+
+/*
 .wilaya {
     background-color: #BDD7EE;
     margin-top: 5px;
@@ -112,12 +115,13 @@ hr.divider-4 {
     height: auto;
     width: auto;
     border: thin solid gray;
-}
+} */
 
-.bg {
+
+/* .bg {
     background-color: #385623;
     color: #fff;
-}
+} */
 
 .neutral {
     background-color: #C6E0B4 !important;
@@ -151,4 +155,8 @@ hr.divider-4 {
 
 .no:hover {
     background-color: #FFE699 !important;
+}
+
+h2 {
+    color: #F2F2F2;
 }

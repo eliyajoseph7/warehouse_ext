@@ -1,22 +1,44 @@
+<app-header></app-header>
 <div class="row ware w-100">
     <div class="col-md-2 shadow h-100">
-        <div class="p-2">
-            <h4><strong>MKOA</strong></h4>
-            <hr class="divider-3">
+        <div class="card p-2">
+            <div class="pb-1">
+                <h4><strong>Zao</strong></h4>
+                <hr class="divider-3">
+            </div>
+            <mat-select class="form-control" placeholder="Chagua zao" (selectionChange)="selectCrop($event.value)">
+                <mat-option *ngFor="let crop of crops; let index=i" [value]="crop.id">
+                    {{crop.name}}
+                </mat-option>
+            </mat-select>
         </div>
-        <div class="card p-2 mb-2 cont">
-            <div *ngFor="let region of regions; let index=i">
+        <div class="card p-2">
+            <div class="pb-1">
+                <h4><strong>MKOA</strong></h4>
+                <hr class="divider-3">
+            </div>
+            <mat-select class="form-control" placeholder="" (selectionChange)="selectRegion($event.value)">
+                <mat-option *ngFor="let region of regions; let index=i" [value]="region.id">
+                    {{region.name}}
+                </mat-option>
+            </mat-select>
+            <!-- <div>
                 <button class="mikoa text-left" id="reg-{{region.id}}" (click)="selectRegion(region.id, $event)" style="width: 100%;">{{region.name}}</button>
+            </div> -->
+        </div>
+        <div class="card p-2">
+            <div class="pb-1">
+                <h4><strong>WILAYA</strong></h4>
+                <hr class="divider-4">
             </div>
-        </div>
-        <div class="p-2">
-            <h4><strong>WILAYA</strong></h4>
-            <hr class="divider-4">
-        </div>
-        <div class="card p-2 cont-1">
-            <div *ngFor="let district of districts; let index=i">
+            <mat-select class="form-control" placeholder="">
+                <mat-option *ngFor="let district of districts; let index=i" [value]="district.id">
+                    {{district.name}}
+                </mat-option>
+            </mat-select>
+            <!-- <div *ngFor="let district of districts; let index=i">
                 <button mat-flat-button class="wilaya text-left" id="reg-{{district.id}}" (click)="selectDistrict(district.id)" style="width: 100%;">{{district.name}}</button>
-            </div>
+            </div> -->
         </div>
     </div>
 
@@ -45,19 +67,29 @@
                 </div>
 
                 <div class="">
-                    <div class="capacity"></div>
+                    <div class="capacity">
+                        <h2 class="text-center"><strong>Storage Capacity Vs Stored Crops</strong></h2>
+                    </div>
                     <div class="bottoml mt-2"></div>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="location"></div>
-                <div class="grade mt-2"></div>
+                <div class="location">
+                    <h2 class="text-center"><strong>Storage by Location</strong></h2>
+                </div>
+                <div class="grade mt-2">
+                    <h2 class="text-center"><strong>Warehouse by Grade</strong></h2>
+                </div>
                 <div class="bottomc mt-2"></div>
             </div>
             <div class="col-md-4">
                 <div class="right"></div>
-                <div class="ownership mt-2"></div>
-                <div class="ownershipreg mt-2"></div>
+                <div class="ownership mt-2">
+                    <h2 class="text-center"><strong>Warehouse by Ownership</strong></h2>
+                </div>
+                <div class="ownershipreg mt-2">
+                    <h2 class="text-center"><strong>Ownership and Registration</strong></h2>
+                </div>
             </div>
         </div>
     </div>

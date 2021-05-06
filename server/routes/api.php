@@ -20,3 +20,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('regions', 'Api\v1\RegionDistrict\RegionDistrictController@getAllRegions');
 Route::get('districts/{regionId}', 'Api\v1\RegionDistrict\RegionDistrictController@getDistricts');
+
+// managements
+Route::Resource('warehouse', 'Api\v1\Managements\ManagementController');
+
+// markets
+Route::Resource('markets', 'Api\v1\Markets\MarketController');
+
+// crops
+Route::Resource('crops', 'Api\v1\Crops\CropController');
+
+// stocks
+Route::resource('stock-taking', 'Api\v1\Stocks\StockTakingController');
+Route::resource('stock-movement', 'Api\v1\Stocks\StockMovementController');
+Route::resource('goods-reception', 'Api\v1\Stocks\GoodsReceptionController');

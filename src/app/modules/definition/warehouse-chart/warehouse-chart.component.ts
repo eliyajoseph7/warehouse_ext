@@ -11,6 +11,7 @@ regions;
 districts;
 neutral = 'neutral';
 normal = 'normal';
+crops;
   constructor(private def: DefinitionService) { }
 
   ngOnInit(): void {
@@ -35,13 +36,10 @@ normal = 'normal';
     )
   }
 
-  selectRegion(id, event) {
-    let other = document.getElementsByClassName('mikoa');
-    for(var i = 0; i < other.length; i++) {
-      other[i].className = 'mikoa text-left'
-    }
-    event.target.className = 'mikoa text-left bg'
-    
+  selectCrop(cropId) {
+
+  }
+  selectRegion(id) {
     this.getDistricts(id);
   }
 

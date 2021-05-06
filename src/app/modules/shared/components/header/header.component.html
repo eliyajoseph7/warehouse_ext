@@ -1,6 +1,6 @@
 <header class="mat-elevation-z2" style="margin-bottom: 0px;">
     <div class="logo-title">
-        <img src="assets/tz_logo.png" class="logo">
+        <img src="assets/tz_logo.png" class="logo" (click)="backToHome()">
         <div style="display: flex;flex-direction: column;">
             <h5 class="zero-margin title">THE UNITED REPUBLIC OF TANZANIA</h5>
             <h5 class="zero-margin title">MINISTRY OF AGRICULTURE</h5>
@@ -17,6 +17,7 @@
          LOGIN
        </h5>
      </div> -->
+    <mat-icon matTooltip="Managements" class="setting-icon" (click)="ToManagement()">settings</mat-icon>
     <div *ngIf="">
         <div class="account">
             <h3 class="zero-margin account-name" [matMenuTriggerFor]="menu">{{usernameInitial}}</h3>
