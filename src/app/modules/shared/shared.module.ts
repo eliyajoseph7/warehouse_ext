@@ -1,9 +1,10 @@
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { AddStockTakingComponent } from './../management/stockComponents/add-stock-taking/add-stock-taking.component';
 import { AddCropComponent } from './../management/add-crop/add-crop.component';
 import { AddMarketComponent } from './../management/add-market/add-market.component';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 import { MatIconModule } from '@angular/material/icon';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
@@ -19,6 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DeleteDataComponent } from '../management/delete-data/delete-data.component';
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 
 
 const Material = [
@@ -32,6 +34,8 @@ const Material = [
   ReactiveFormsModule,
   MatFormFieldModule,
   MatInputModule,
+  MatMomentDateModule,
+  MatDatepickerModule
 ]
 
 @NgModule({
@@ -51,6 +55,9 @@ const Material = [
     AddMarketComponent,
     AddCropComponent,
     AddStockTakingComponent
+  ],
+  providers: [
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },DatePipe
   ]
 })
 export class SharedModule { }

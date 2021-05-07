@@ -5,6 +5,7 @@
     <p *ngIf="this.data.type === 'warehouse'" style="text-align: center;font-size: 25px;color: #383838;">Are you sure you want to delete this warehouse?</p>
     <p *ngIf="this.data.type === 'markets'" style="text-align: center;font-size: 25px;color: #383838;">Are you sure you want to delete this market?</p>
     <p *ngIf="this.data.type === 'crops'" style="text-align: center;font-size: 25px;color: #383838;">Are you sure you want to delete this crop?</p>
+    <p *ngIf="this.data.type === 'stock'" style="text-align: center;font-size: 25px;color: #383838;">Are you sure you want to delete this stock?</p>
     <div style="display: flex;flex-direction: row;justify-content: space-between;margin-top: 40px;">
         <button mat-button class="delete-btn" style="width: 47%;" (click)="onNoClick()">NO</button>
         <button class="red-delete-btn" style="width: 47%;" (click)="onSubmit()" mat-button>YES</button>

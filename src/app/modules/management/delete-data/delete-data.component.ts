@@ -52,6 +52,13 @@ export class DeleteDataComponent implements OnInit {
         }
       )
     }
+    if(this.data.type == 'stock') {
+      this.manServ.deleteStockTakingsData(this.data.id).subscribe(
+        resp => {
+          this.onNoClick();
+        }
+      )
+    }
   }
 
 }

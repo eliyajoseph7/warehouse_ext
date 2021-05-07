@@ -81,6 +81,18 @@ export class ManagementService {
   stockTakingsData() {
     return this.http.get(url4, {headers: this.headers});
   }
+  getStockTakingSingleData(id) {
+    return this.http.get(url4 + '/' + id, {headers: this.headers});
+  }
+  addStockTakingsData(data) {
+    return this.http.post(url4, data, {headers: this.headers});
+  }
+  updateStockTakingsData(data, id) {
+    return this.http.put(url4 + '/' + id, data, {headers: this.headers});
+  }
+  deleteStockTakingsData(id) {
+    return this.http.delete(url4 + '/' + id, {headers: this.headers});
+  }
 
   // stock movement
   stockMovementsData() {

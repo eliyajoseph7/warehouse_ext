@@ -21,7 +21,7 @@
             <td>{{stock.amount}}</td>
             <td>{{stock.district}}</td>
             <td style="display: flex; flex-direction: row;">
-                <mat-icon class="text-success act" (click)="editStock(stock.id, stock.region.id)">update</mat-icon>
+                <mat-icon class="text-success act" (click)="editStock(stock.id, stock.region_id)">update</mat-icon>
                 <mat-icon class="text-danger act" (click)="deleteStock(stock.id)">delete_forever</mat-icon>
             </td>
         </tr>

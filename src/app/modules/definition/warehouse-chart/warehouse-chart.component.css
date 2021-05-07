@@ -1,11 +1,16 @@
 .ware {
     height: 89vh;
-    padding-top: 10px;
+    padding-top: 1px;
+}
+
+.side {
+    background-color: hsl(0, 0%, 100%);
 }
 
 hr.divider-1 {
-    background-color: #385623;
-    margin: 0;
+    background-color: green;
+    margin-top: 0;
+    margin-bottom: 3px;
 }
 
 hr.divider-2 {
@@ -39,13 +44,19 @@ hr.divider-4 {
 }
 
 .location {
-    background-color: #545454;
+    background-image: linear-gradient(to right, #2E2E2E, #3B3B3B, #4E4E4E, #595959, #595959, #4E4E4E, #3B3B3B, #2E2E2E);
     height: 35vh;
 }
 
 .capacity {
-    background-color: #545454;
-    height: 25vh;
+    background-image: linear-gradient(to right, #2E2E2E, #3B3B3B, #4E4E4E, #595959, #595959, #4E4E4E, #3B3B3B, #2E2E2E);
+    height: 17vh;
+    margin-bottom: 7px;
+}
+
+.capacity_grade {
+    background-image: linear-gradient(to right, #2E2E2E, #3B3B3B, #4E4E4E, #595959, #595959, #4E4E4E, #3B3B3B, #2E2E2E);
+    height: 17vh;
 }
 
 .right {
@@ -54,13 +65,18 @@ hr.divider-4 {
 }
 
 .grade {
-    background-color: #545454;
-    height: 20vh;
+    background-image: linear-gradient(to right, #2E2E2E, #3B3B3B, #4E4E4E, #595959, #595959, #4E4E4E, #3B3B3B, #2E2E2E);
+    height: 40vh;
 }
 
 .ownership {
-    background-color: #545454;
-    height: 20vh;
+    /* background-color: #545454; */
+    background-image: linear-gradient(to right, #2E2E2E, #3B3B3B, #4E4E4E, #595959, #595959, #4E4E4E, #3B3B3B, #2E2E2E);
+    height: 18vh;
+}
+
+.map {
+    height: 35vh;
 }
 
 .bottoml {
@@ -74,8 +90,8 @@ hr.divider-4 {
 }
 
 .ownershipreg {
-    background-color: #545454;
-    height: 30vh;
+    background-image: linear-gradient(to right, #2E2E2E, #3B3B3B, #4E4E4E, #595959, #595959, #4E4E4E, #3B3B3B, #2E2E2E);
+    height: 21vh;
 }
 
 .col-md-4 {
@@ -93,70 +109,25 @@ hr.divider-4 {
     overflow: auto;
 }
 
-
-/* .mikoa {
-    background-color: #FFE699;
-    margin-top: 5px;
-    color: black;
-    line-height: 28px;
-    height: auto;
-    width: auto;
-    border: thin solid rgb(204, 201, 201);
-    border-radius: 5%;
-} */
-
-
-/*
-.wilaya {
-    background-color: #BDD7EE;
-    margin-top: 5px;
-    color: black;
-    line-height: 28px;
-    height: auto;
-    width: auto;
-    border: thin solid gray;
-} */
-
-
-/* .bg {
-    background-color: #385623;
-    color: #fff;
-} */
-
-.neutral {
-    background-color: #C6E0B4 !important;
-}
-
-
-/* .gvt {
-    background-color: #fff !important;
-} */
-
-.gvt:hover {
-    background-color: #FFE699 !important;
-}
-
-.prt:hover {
-    background-color: #FFE699 !important;
-}
-
-
-/* .prt {
-    background-color: #fff !important;
-} */
-
-.normal {
-    background-color: #F8CBAD !important;
-}
-
-.yes:hover {
-    background-color: #FFE699 !important;
-}
-
-.no:hover {
-    background-color: #FFE699 !important;
-}
-
 h2 {
-    color: #F2F2F2;
+    color: #E9E9E9;
+}
+
+.space {
+    padding-left: 13px;
+    padding-right: 0;
+}
+
+.space-2 {
+    padding-left: 3px;
+    padding-right: 0;
+}
+
+.text {
+    text-transform: capitalize !important;
+}
+
+.card-2 {
+    background-color: transparent;
+    height: 100%;
 }

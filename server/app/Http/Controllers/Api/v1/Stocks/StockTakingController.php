@@ -18,21 +18,12 @@ class StockTakingController extends Controller
        $stock = StockTaking::join('warehouses', 'warehouses.id', 'stock_takings.warehouse_id')
                             ->join('crops', 'crops.id', 'stock_takings.crop_id')
                             ->join('districts', 'districts.id', 'stock_takings.district_id')
-                            ->select('warehouses.name as warehouse', 'crops.name as crop', 'districts.name as district', 'stock_takings.*')
+                            ->select('warehouses.name as warehouse', 'crops.name as crop', 'districts.name as district', 'districts.region_id', 'stock_takings.*')
                             ->get();
 
        return response()->json($stock);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -42,7 +33,16 @@ class StockTakingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $stock = new StockTaking;
+        $stock->date = date('Y-m-d',strtotime($request->input('date')));
+        $stock->warehouse_id = $request->input('warehouse_id');
+        $stock->crop_id = $request->input('crop_id');
+        $stock->district_id = $request->input('district_id');
+        $stock->amount = $request->input('amount');
+
+        $stock->save();
+
+        return response()->json('Stock taken successfully');
     }
 
     /**
@@ -53,18 +53,9 @@ class StockTakingController extends Controller
      */
     public function show($id)
     {
-        //
-    }
+        $stock = StockTaking::find($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return response()->json($stock);
     }
 
     /**
@@ -76,7 +67,16 @@ class StockTakingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $stock = StockTaking::find($id);
+        $stock->date = date('Y-m-d',strtotime($request->input('date')));
+        $stock->warehouse_id = $request->input('warehouse_id');
+        $stock->crop_id = $request->input('crop_id');
+        $stock->district_id = $request->input('district_id');
+        $stock->amount = $request->input('amount');
+
+        $stock->save();
+
+        return response()->json('Stock updated successfully');
     }
 
     /**
@@ -87,6 +87,7 @@ class StockTakingController extends Controller
      */
     public function destroy($id)
     {
-        //
+        StockTaking::find($id)->delete();
+        return response()->json('Stock deleted successfully');
     }
 }

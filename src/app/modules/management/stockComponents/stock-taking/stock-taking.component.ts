@@ -4,6 +4,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { DeleteDataComponent } from '../../delete-data/delete-data.component';
 
 @Component({
   selector: 'app-stock-taking',
@@ -63,9 +64,33 @@ export class StockTakingComponent implements OnInit {
 
   onStockTaking() {
     const dialogRef = this.dialog.open(AddStockTakingComponent, {
-      width: '500px',
-      height: '500px',
+      width: '550px',
+      height: '620px',
       data: {action: 'add' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.getWarehouseStocks();
+    })
+  }
+
+  editStock(id, regionId) {
+    const dialogRef = this.dialog.open(AddStockTakingComponent, {
+      width: '550px',
+      height: '620px',
+      data: {id: id, region: regionId, action: 'edit' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.getWarehouseStocks();
+    })
+  }
+
+  deleteStock(id) {
+    const dialogRef = this.dialog.open(DeleteDataComponent, {
+      width: '500px',
+      height: '300px',
+      data: {id: id, type: 'stock' }
     });
 
     dialogRef.afterClosed().subscribe(result => {

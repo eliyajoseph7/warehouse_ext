@@ -28,7 +28,8 @@ import { StockMovementComponent } from './modules/management/stockComponents/sto
 import { GoodsReceptionComponent } from './modules/management/stockComponents/goods-reception/goods-reception.component';
 import { AddStockTakingComponent } from './modules/management/stockComponents/add-stock-taking/add-stock-taking.component';
 import { DatePipe } from '@angular/common';
-import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,9 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapte
     MatSelectModule,
     DataTablesModule,
     MatProgressSpinnerModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
   ],
   providers: [
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },DatePipe

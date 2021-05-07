@@ -1,25 +1,15 @@
-<app-header></app-header>
+<!-- <app-header></app-header> -->
 <div class="row ware w-100">
-    <div class="col-md-2 shadow h-100">
+    <div class="col-md-2 shadow h-100 space side">
+
         <div class="card p-2">
             <div class="pb-1">
-                <h4><strong>Zao</strong></h4>
+                <h4><strong>Region</strong></h4>
                 <hr class="divider-3">
             </div>
-            <mat-select class="form-control" placeholder="Chagua zao" (selectionChange)="selectCrop($event.value)">
-                <mat-option *ngFor="let crop of crops; let index=i" [value]="crop.id">
-                    {{crop.name}}
-                </mat-option>
-            </mat-select>
-        </div>
-        <div class="card p-2">
-            <div class="pb-1">
-                <h4><strong>MKOA</strong></h4>
-                <hr class="divider-3">
-            </div>
-            <mat-select class="form-control" placeholder="" (selectionChange)="selectRegion($event.value)">
+            <mat-select class="form-control" placeholder="Select Region" (selectionChange)="selectRegion($event.value)">
                 <mat-option *ngFor="let region of regions; let index=i" [value]="region.id">
-                    {{region.name}}
+                    <span class="text">{{region.name | lowercase}}</span>
                 </mat-option>
             </mat-select>
             <!-- <div>
@@ -28,12 +18,12 @@
         </div>
         <div class="card p-2">
             <div class="pb-1">
-                <h4><strong>WILAYA</strong></h4>
+                <h4><strong>District</strong></h4>
                 <hr class="divider-4">
             </div>
-            <mat-select class="form-control" placeholder="">
+            <mat-select class="form-control" placeholder="Select District">
                 <mat-option *ngFor="let district of districts; let index=i" [value]="district.id">
-                    {{district.name}}
+                    <span class="">{{district.name.substring(0,1) | uppercase }}{{district.name.substring(1) | lowercase }}</span>
                 </mat-option>
             </mat-select>
             <!-- <div *ngFor="let district of districts; let index=i">
@@ -42,53 +32,130 @@
         </div>
     </div>
 
-    <div class="col-md-10">
-        <div class="row w-100">
-            <div class="col-md-4">
+    <div class="col-md-10 space">
+        <div class="row">
+            <div class="col-md-3 space-2">
                 <div class="card">
                     <div class="p-2">
-                        <p><strong>Ownership</strong></p>
-                        <hr class="divider-1" />
-                        <div class="d-flex justify-content-between pt-2 button bt-1">
-                            <button mat-raised-button class="btn btn-light col-md-6 mr-1 gvt" [ngClass]="neutral == 'neutral' || neutral == 'gvt' ? 'neutral': 'gvt'" (click)="ownership('gvt')">Government</button>
-                            <button mat-raised-button class="btn btn-light col-md-6 prt" [ngClass]="neutral == 'neutral' || neutral == 'prt' ? 'neutral': 'prt'" (click)="ownership('prt')">Private</button>
+                        <div class="pb-1">
+                            <h4 style="width: 100%; background-color: #70AD47; color: #fff; padding-left: 3px;"><strong>Warehouse Ownership</strong></h4>
+                            <hr class="divider-1">
                         </div>
+                        <mat-select class="form-control" placeholder="Select Ownership">
+                            <mat-option value="public">Public</mat-option>
+                            <mat-option value="private">Private</mat-option>
+                        </mat-select>
                     </div>
                 </div>
-                <div class="card mb-2">
+            </div>
+            <div class="col-md-3 space-2 pb-1">
+                <div class="card">
                     <div class="p-2">
-                        <p><strong>Registration</strong></p>
-                        <hr class="divider-2" />
-                        <div class="d-flex justify-content-between pt-2 button">
-                            <button mat-raised-button class="btn btn-light col-md-6 mr-1 yes" [ngClass]="normal == 'normal' || normal == 'yes' ? 'normal': 'yes'" (click)="registration('yes')">Yes</button>
-                            <button mat-raised-button class="btn btn-light col-md-6 no" [ngClass]="normal == 'normal' || normal == 'no' ? 'normal': 'no'" (click)="registration('no')">No</button>
+                        <div class="pb-1">
+                            <h4 style="width: 100%; background-color: #FFC000; color: #fff; padding-left: 3px;"><strong>WRRB Registration</strong></h4>
+                            <hr class="divider-1">
+                        </div>
+                        <mat-select class="form-control" placeholder="Select..">
+                            <mat-option value="yes">Yes</mat-option>
+                            <mat-option value="no">No</mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 space-2">
+                <div class="card p-2">
+                    <div class="pb-1">
+                        <h4 style="width: 100%; background-color: #4472C4; color: #fff; padding-left: 3px;"><strong>Crop</strong></h4>
+                        <hr class="divider-1">
+                    </div>
+                    <mat-select class="form-control" placeholder="Select Crop" (selectionChange)="selectCrop($event.value)">
+                        <mat-option *ngFor="let crop of crops; let index=i" [value]="crop.id">
+                            {{crop.name}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </div>
+            <div class="col-md-3 space-2 pb-1">
+                <div class="card">
+                    <div class="p-2">
+                        <div class="pb-1">
+                            <h4 style="width: 100%; background-color: #ED7D31; color: #fff; padding-left: 3px;"><strong>Crop Grade</strong></h4>
+                            <hr class="divider-1">
+                        </div>
+                        <mat-select class="form-control" placeholder="Select..">
+                            <mat-option value="Grade 1">Grade 1</mat-option>
+                            <mat-option value="Grade 2">Grade 2</mat-option>
+                            <mat-option value="Grade 3">Grade 3</mat-option>
+                            <mat-option value="Grade 4">Grade 4</mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 space-2">
+                <div class="card">
+                    <div class="p-2 map">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 space-2">
+                <div class="location">
+                    <div class="card card-2">
+                        <h2 class="text-center"><strong>Stored Crops by Location (MT)</strong></h2>
+                        <div id="" style="height: 10vh;">
+                            <canvas id="" style="height: 100%; width: 100%;"></canvas>
                         </div>
                     </div>
                 </div>
-
-                <div class="">
-                    <div class="capacity">
-                        <h2 class="text-center"><strong>Storage Capacity Vs Stored Crops</strong></h2>
+            </div>
+            <div class="col-md-4">
+                <div class="capacity">
+                    <div class="card card-2">
+                        <h2 class="text-center"><strong>Storage Capacity Vs Stored Crops (MT)</strong></h2>
+                        <div id="storage_crop_capacity" style="height: 50%;">
+                            <canvas id="storage_crop_capacity_chart" style="height: 100%; width: 100%;"></canvas>
+                        </div>
                     </div>
-                    <div class="bottoml mt-2"></div>
+                </div>
+                <div class="capacity_grade">
+                    <div class="card card-2">
+                        <h2 class="text-center"><strong>Storage Capacity by Grade (MT)</strong></h2>
+                        <div id="storage_grade" style="height: 10vh;">
+                            <canvas id="storage_grade_chart" style="height: 100%; width: 100%;"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="location">
-                    <h2 class="text-center"><strong>Storage by Location</strong></h2>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 space-2">
+                <div class="ownership mt-1">
+                    <div class="card card-2">
+                        <h2 class="text-center"><strong>Warehouse by Ownership</strong></h2>
+                        <div id="storage_ownership" style="height: 10vh;">
+                            <canvas id="storage_ownership_chart" style="height: 100%; width: 100%;"></canvas>
+                        </div>
+                    </div>
                 </div>
-                <div class="grade mt-2">
-                    <h2 class="text-center"><strong>Warehouse by Grade</strong></h2>
-                </div>
-                <div class="bottomc mt-2"></div>
-            </div>
-            <div class="col-md-4">
-                <div class="right"></div>
-                <div class="ownership mt-2">
-                    <h2 class="text-center"><strong>Warehouse by Ownership</strong></h2>
-                </div>
-                <div class="ownershipreg mt-2">
+                <div class="ownershipreg mt-1">
                     <h2 class="text-center"><strong>Ownership and Registration</strong></h2>
+                </div>
+            </div>
+            <div class="col-md-4 space-2">
+                <div class="grade mt-1">
+                    <div class="card card-2">
+                        <h2 class="text-center"><strong>Warehouse Capacity vs Stored Crops (MT)</strong></h2>
+                        <div id="warehouse_crop_capacity" style="height: 70%;">
+                            <canvas id="warehouse_crop_capacity_chart" style="height: 100%; width: 100%;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="grade mt-1">
+                    <h2 class="text-center"><strong>Warehouse Utilization</strong></h2>
                 </div>
             </div>
         </div>

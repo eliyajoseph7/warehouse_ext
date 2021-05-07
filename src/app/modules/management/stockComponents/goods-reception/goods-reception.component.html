@@ -12,11 +12,11 @@
     </thead>
     <tbody>
         <tr *ngFor="let stock of stocks">
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{stock.date}}</td>
+            <td>{{stock.crop}}</td>
+            <td>{{stock.quantity}}</td>
+            <td>{{stock.price}}</td>
+            <td>{{stock.district}}</td>
             <td style="display: flex; flex-direction: row;">
                 <mat-icon class="text-success act" (click)="editStock(stock.id, stock.region.id)">update</mat-icon>
                 <mat-icon class="text-danger act" (click)="deleteStock(stock.id)">delete_forever</mat-icon>
