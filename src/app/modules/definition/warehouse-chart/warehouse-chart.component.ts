@@ -16,6 +16,7 @@ stcaps;
 ownership;
 cropcap;
 warecropcap;
+utilization;
   constructor(
     private def: DefinitionService,
     private manServ: ManagementService
@@ -113,11 +114,21 @@ warecropcap;
     );
   }
 
+  warehouseUtilization() {
+    this.def.warehouseUtilization().subscribe(
+      data => {
+        this.utilization = data;
+        this.drawWarehouseUtilization();
+      }
+    );
+  }
+
   drawCharts() {
     this.storageByGrade();
     this.warehouseByOwnership();
     this.storageCropAndCapacity();
     this.warehouseCapacityAndCrop();
+    this.warehouseUtilization();
   }
 
 
@@ -491,6 +502,113 @@ warecropcap;
             },
             ticks: {
               max: Math.max(...graphData.datasets[0].data) + 10,
+              display: true,
+              beginAtZero: true,
+              fontColor: "#AEAEAE",
+            }
+          }],
+          xAxes: [{
+            categoryPercentage: 1.0,
+            barPercentage: 1.0,
+            gridLines: {
+              drawBorder: false,
+              // display: false,
+              // color: "#000",
+              zeroLineColor: '#AEAEAE'
+            },
+            ticks: {
+              beginAtZero: true,
+              display: false,
+            }
+          }]
+        },
+        responsive: true,
+        maintainAspectRatio: true,
+        layout: {
+          padding: {
+            left: 0,
+            right: 40,
+            top: 0,
+            bottom: 0
+          }
+        }
+      }
+    });
+  }
+
+  drawWarehouseUtilization() {
+    var myChart
+    document.getElementById('warehouse_utilization').innerHTML = "";
+    document.getElementById('warehouse_utilization').innerHTML = '<canvas id="warehouse_utilization_chart" style="height: 100%; width: 100%"></canvas>'
+    var ctx = document.getElementById("warehouse_utilization_chart");
+
+
+    var data = {
+      labels: this.utilization[0],
+      datasets: [
+        {
+        data: this.utilization[1],
+        backgroundColor: "#5197D6",
+        barThickness: 10,
+      }
+    ]
+    }
+
+
+    console.log(ctx)
+     myChart = new Chart(ctx, {
+      type: 'horizontalBar',
+      data: data,
+      options: {
+
+        "hover": {
+          "animationDuration": 0
+        },
+        "animation": {
+          "duration": 1,
+          "onComplete": function() {
+            var chartInstance = this.chart,
+              ctx = chartInstance.ctx;
+
+            ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily );
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            ctx.fillStyle = "#D6D6D6";
+
+            this.data.datasets.forEach(function(dataset, i) {
+              var meta = chartInstance.controller.getDatasetMeta(i);
+              meta.data.forEach(function(bar, index) {
+                var data = dataset.data[index] + '%';
+                ctx.fillText(data, bar._model.x + 23, bar._model.y + 7);
+              });
+            });
+          }
+        },
+        legend: {
+          "display": false,
+          position: "top",
+          labels: {
+            fontColor: "#D6D6D6",
+            padding: 5,
+            boxWidth: 10,
+          }
+        },
+        tooltips: {
+          "enabled": false
+        },
+        scales: {
+          yAxes: [{
+            display: true,
+            // categoryPercentage: 1.0,
+            // barPercentage: 1.0,
+            scaleLabel: {
+              display: true,
+            },
+            gridLines: {
+              display: false
+            },
+            ticks: {
+              max: Math.max(...data.datasets[0].data) + 10,
               display: true,
               beginAtZero: true,
               fontColor: "#AEAEAE",

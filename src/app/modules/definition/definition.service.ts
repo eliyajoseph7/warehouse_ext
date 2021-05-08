@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 
-const baseUrl = 'http://127.0.0.1:8000/api';
+const baseUrl = 'http://stocks.multics.co.tz/public/api';
+// const baseUrl = 'http://127.0.0.1:8000/api';
 const url1 = baseUrl + '/regions'
 const url2 = baseUrl + '/districts'
 const url3 = baseUrl + '/storage-by-grade'
 const url4 = baseUrl + '/warehouse-by-ownership'
 const url5 = baseUrl + '/stored-crop-and-capacity'
 const url6 = baseUrl + '/warehouse-capacity-and-crops'
+const url7 = baseUrl + '/warehouse-utilization'
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +41,9 @@ export class DefinitionService {
 
   warehouseCapacityAndCrops() {
     return this.http.get(url6, {headers: this.headers});
+  }
+
+  warehouseUtilization() {
+    return this.http.get(url7, {headers: this.headers});
   }
 }
