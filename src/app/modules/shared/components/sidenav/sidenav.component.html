@@ -2,20 +2,19 @@
 
     <app-header></app-header>
     <mat-sidenav-container>
-        gghfhf
         <mat-sidenav mode="side" opened>
             <div>
                 <mat-nav-list>
-                    <a mat-list-item href="managements">
+                    <a mat-list-item href="managements" [ngClass]="{'active': index == 0}">
                         <mat-icon mat-list-icon>home</mat-icon> Warehouses
                     </a>
-                    <a mat-list-item href="managements/markets">
+                    <a mat-list-item href="managements/markets" [ngClass]="{'active': index == 1}">
                         <mat-icon mat-list-icon>people</mat-icon> Markets
                     </a>
-                    <a mat-list-item href="managements/crops">
+                    <a mat-list-item href="managements/crops" [ngClass]="{'active': index == 2}">
                         <mat-icon mat-list-icon>people</mat-icon> Crops
                     </a>
-                    <a mat-list-item href="managements/stocks">
+                    <a mat-list-item href="managements/manage-stocks" [ngClass]="{'active': index == 3}">
                         <mat-icon>bookmark_border</mat-icon> Stocks
                     </a>
                 </mat-nav-list>

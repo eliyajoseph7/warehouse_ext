@@ -15,3 +15,13 @@ mat-sidenav {
 mat-list {
     display: block;
 }
+
+.active {
+    background-color: #106736;
+    color: whitesmoke;
+}
+
+.active:hover {
+    background-color: #106736;
+    color: whitesmoke;
+}
