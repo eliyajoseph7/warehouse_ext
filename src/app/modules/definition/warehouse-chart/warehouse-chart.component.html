@@ -102,9 +102,9 @@
             <div class="col-md-4 space-2">
                 <div class="location">
                     <div class="card card-2">
-                        <h2 class="text-center"><strong>Stored Crops by Location (MT)</strong></h2>
-                        <div id="" style="height: 10vh;">
-                            <canvas id="" style="height: 100%; width: 100%;"></canvas>
+                        <h3 class="text-center"><strong>Stored Crops by Location (MT)</strong></h3>
+                        <div id="crop_location" style="height: 30vh;">
+                            <canvas id="crop_location_chart" style="height: 100%; width: 100%;"></canvas>
                         </div>
                     </div>
                 </div>
@@ -112,7 +112,7 @@
             <div class="col-md-4">
                 <div class="capacity">
                     <div class="card card-2">
-                        <h2 class="text-center"><strong>Storage Capacity Vs Stored Crops (MT)</strong></h2>
+                        <h3 class="text-center"><strong>Storage Capacity Vs Stored Crops (MT)</strong></h3>
                         <div id="storage_crop_capacity" style="height: 50%;">
                             <canvas id="storage_crop_capacity_chart" style="height: 100%; width: 100%;"></canvas>
                         </div>
@@ -120,7 +120,7 @@
                 </div>
                 <div class="capacity_grade">
                     <div class="card card-2">
-                        <h2 class="text-center"><strong>Storage Capacity by Grade (MT)</strong></h2>
+                        <h3 class="text-center"><strong>Storage Capacity by Grade (MT)</strong></h3>
                         <div id="storage_grade" style="height: 10vh;">
                             <canvas id="storage_grade_chart" style="height: 100%; width: 100%;"></canvas>
                         </div>
@@ -133,20 +133,28 @@
             <div class="col-md-4 space-2">
                 <div class="ownership mt-1">
                     <div class="card card-2">
-                        <h2 class="text-center"><strong>Warehouse by Ownership</strong></h2>
+                        <h3 class="text-center"><strong class="d-flex justify-content-center"><span>{{ownershipTitle}}</span> <span *ngIf="!hide" class="undo-btn badge badge-primary ml-2 mt-1" (click)="warehouseByOwnership()"><mat-icon [inline]="true">restore</mat-icon></span></strong></h3>
                         <div id="storage_ownership" style="height: 10vh;">
                             <canvas id="storage_ownership_chart" style="height: 100%; width: 100%;"></canvas>
                         </div>
                     </div>
                 </div>
                 <div class="ownershipreg mt-1">
-                    <h2 class="text-center"><strong>Ownership and Registration</strong></h2>
+                    <div class="card card-2">
+                        <h3 class="text-center"><strong>Ownership</strong></h3>
+                        <div id="ownership" style="height: 70%;">
+                            <canvas id="ownership_chart" style="height: 100%; width: 100%;"></canvas>
+                        </div>
+                    </div>
                 </div>
+                <!-- <div class="ownershipreg mt-1">
+                    <h3 class="text-center"><strong>Registration</strong></h3>
+                </div> -->
             </div>
             <div class="col-md-4 space-2">
                 <div class="grade mt-1">
                     <div class="card card-2">
-                        <h2 class="text-center"><strong>Warehouse Capacity vs Stored Crops (MT)</strong></h2>
+                        <h3 class="text-center"><strong>Warehouse Capacity vs Stored Crops (MT)</strong></h3>
                         <div id="warehouse_crop_capacity" style="height: 70%;">
                             <canvas id="warehouse_crop_capacity_chart" style="height: 100%; width: 100%;"></canvas>
                         </div>
@@ -156,7 +164,7 @@
             <div class="col-md-4">
                 <div class="grade mt-1">
                     <div class="card card-2">
-                        <h2 class="text-center"><strong>Warehouse Utilization</strong></h2>
+                        <h3 class="text-center"><strong>Warehouse Utilization</strong></h3>
                         <div id="warehouse_utilization" style="height: 70%;">
                             <canvas id="warehouse_utilization_chart" style="height: 100%; width: 100%;"></canvas>
                         </div>

@@ -53,86 +53,27 @@ class DrawChartController extends Controller
 
    public function warehouseCapacityAndCrops() {
 
+        $crops = collect([]);
+        $regions = collect([]);
+        $warehouses = collect([]);
         $collection = collect([]);
         // crops stored
-        $crops = StockTaking::join('districts', 'districts.id', '=', 'stock_takings.district_id')
+        $data = StockTaking::join('districts', 'districts.id', '=', 'stock_takings.district_id')
                             ->join('regions', 'regions.id', '=', 'districts.region_id')
-                            ->select('regions.name', DB::Raw("SUM(amount) as amount"))
+                            ->join('warehouses', 'warehouses.id', '=', 'stock_takings.warehouse_id')
+                            ->select('regions.name', DB::Raw("SUM(amount) as amount"), DB::Raw('SUM(warehouses.capacity) as capacity'))
                             ->groupBy('regions.name')
                             ->get();
 
-        $crops2 = GoodsReception::join('districts', 'districts.id', '=', 'goods_receptions.district_id')
-                            ->join('regions', 'regions.id', '=', 'districts.region_id')
-                            ->select('regions.name', DB::raw("SUM(quantity) as quantity"))
-                            ->groupBy('regions.name')
-                            ->get();
-        $cropsCombine = [];
-
-        foreach($crops as $crop) {
-            foreach($crops2 as $crop2) {
-                if($crop->name == $crop2->name) {
-                    $cropsCombine[] = [
-                        'name' => $crop->name,
-                        'amount' => $crop->amount + $crop2->quantity
-                    ];
-                }
-            }
+        foreach($data as $data) {
+            $regions->push($data->name);
+            $crops->push($data->amount);
+            $warehouses->push($data->capacity);
         }
-
-        $temp = collect([]);
-        foreach($cropsCombine as $combine) {
-            $temp->push($combine);
-        }
-
-        foreach($crops as $crop) {
-            if($temp->where('name', $crop->name)->count() > 0){
-            }else{
-                $temp->push($crop);
-            }
-        }
-
-        // warehouse capacity
-        $warehouse = Warehouse::join('regions', 'regions.id', '=', 'warehouses.region_id')
-                                ->select('regions.name', DB::raw('SUM(capacity) as capacity'))
-                                ->groupBy('regions.name')
-                                ->get();
-
-        $regions = collect([]);
-        $cropData = collect([]);
-        $warehouseData = collect([]);
-
-        // available in both $temp and $warehouse
-        foreach($temp as $tem) {
-            foreach($warehouse as $ware) {
-                if($tem['name'] === $ware->name) {
-                    $regions->push($tem['name']);
-                    $cropData->push((int)$tem['amount']);
-                    $warehouseData->push((int)$ware->capacity);
-                }
-            }
-        }
-
-        // only available in $temp
-        foreach($temp as $tem) {
-            if(!$regions->contains($tem['name'])) {
-                $regions->push($tem['name']);
-                $cropData->push((int)$tem['amount']);
-                $warehouseData->push(0);
-            }
-        }
-
-        // only available in $warehouse
-        foreach($warehouse as $ware) {
-            if(!$regions->contains($ware->name)) {
-                $regions->push($ware->name);
-                $cropData->push(0);
-                $warehouseData->push((int)$ware->capacity);
-            }
-        }
-
         // pushing all data to a single collection
-        $collection->push($regions, $cropData, $warehouseData);
-        return $collection;
+        $collection->push($regions, $crops, $warehouses);
+
+        return response()->json($collection);
    }
 
 
@@ -140,76 +81,22 @@ class DrawChartController extends Controller
     public function warehouseUtilization() {
         $collection = collect([]);
         // crops stored
-        $crops = StockTaking::join('districts', 'districts.id', '=', 'stock_takings.district_id')
+         $data = StockTaking::join('districts', 'districts.id', '=', 'stock_takings.district_id')
                             ->join('regions', 'regions.id', '=', 'districts.region_id')
-                            ->select('regions.name', DB::Raw("sum(amount) as amount"))
+                            ->join('warehouses', 'warehouses.id', '=', 'stock_takings.warehouse_id')
+                            ->select('regions.name', DB::Raw("SUM(amount) as amount"), DB::Raw('SUM(warehouses.capacity) as capacity'))
                             ->groupBy('regions.name')
+                            ->orderBy('amount')
                             ->get();
-
-        $crops2 = GoodsReception::join('districts', 'districts.id', '=', 'goods_receptions.district_id')
-                            ->join('regions', 'regions.id', '=', 'districts.region_id')
-                            ->select('regions.name', DB::Raw('SUM(quantity) as quantity'))
-                            ->groupBy('regions.name')
-                            ->get();
-        $cropsCombine = [];
-
-        foreach($crops as $crop) {
-            foreach($crops2 as $crop2) {
-                if($crop->name == $crop2->name) {
-                    $cropsCombine[] = [
-                        'name' => $crop->name,
-                        'amount' => $crop->amount + $crop2->quantity
-                    ];
-                }
-            }
-        }
-
-        $temp = collect([]);
-        foreach($cropsCombine as $combine) {
-            $temp->push($combine);
-        }
-
-        foreach($crops as $crop) {
-            if($temp->where('name', $crop->name)->count() > 0){
-            }else{
-                $temp->push($crop);
-            }
-        }
-
-        // return $temp;
-        // warehouse capacity
-        $warehouse = Warehouse::join('regions', 'regions.id', '=', 'warehouses.region_id')
-                                ->select('regions.name', DB::Raw('SUM(capacity) as capacity'))
-                                ->groupBy('regions.name')
-                                ->get();
 
         $regions = collect([]);
         $warehouseData = collect([]);
-        // available in both $temp and $warehouse
-        foreach($temp as $tem) {
-            foreach($warehouse as $ware) {
-                if($tem['name'] === $ware->name) {
-                    $regions->push($tem['name']);
-                    $warehouseData->push($this->calculateUtilization((int)$tem['amount'],(int)$ware->capacity));
-                }
-            }
+
+        foreach($data as $data) {
+            $regions->push($data->name);
+            $warehouseData->push($this->calculateUtilization($data->amount, $data->capacity));
         }
 
-        // only available in $temp
-        foreach($temp as $tem) {
-            if(!$regions->contains($tem['name'])) {
-                $regions->push($tem['name']);
-                $warehouseData->push(0);
-            }
-        }
-
-        // only available in $warehouse
-        foreach($warehouse as $ware) {
-            if(!$regions->contains($ware->name)) {
-                $regions->push($ware->name);
-                $warehouseData->push($this->calculateUtilization(0, (int)$ware->capacity));
-            }
-        }
 
         $collection->push($regions, $warehouseData);
         return response()->json($collection);
@@ -222,5 +109,35 @@ class DrawChartController extends Controller
             $utilization = (float)number_format($utilization, 2, '.', '');
         }
         return $utilization;
+    }
+
+    // this function is used when drilling down the warehouse ownership chart to see the registration
+    public function warehouseOwnershipRegistration($type) {
+        $collection = collect([]);
+        $yes = Warehouse::whereRaw('lower(type) = ?', strtolower($type))->whereNotNull('licensed_by')->count();
+        $no = Warehouse::whereRaw('lower(type) = ?', strtolower($type))->whereNull('licensed_by')->count();
+
+        $collection->push(['Yes', 'No'], [$yes, $no]);
+        return response()->json($collection);
+    }
+
+    // Stored crops by location
+    public function getCropsByLocation() {
+        // the data can be obtained from stock_takings table and goods_receptions table
+        $regions = collect([]);
+        $values = collect([]);
+        $collection = collect([]);
+        $stocks = StockTaking::join('districts', 'districts.id', '=', 'stock_takings.district_id')
+                            ->join('regions', 'regions.id', '=', 'districts.region_id')
+                            ->select('regions.name', DB::Raw("SUM(amount) as amount"))
+                            ->groupBy('regions.name')
+                            ->get();
+
+        foreach($stocks as $stock) {
+            $regions->push($stock->name);
+            $values->push($stock->amount);
+        }
+        $collection->push($regions, $values);
+        return response()->json($collection);
     }
 }

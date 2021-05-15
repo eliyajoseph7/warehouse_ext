@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1\Stocks;
 
 use App\Http\Controllers\Controller;
 use App\Models\StockTaking;
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
 
 class StockTakingController extends Controller
@@ -33,16 +34,36 @@ class StockTakingController extends Controller
      */
     public function store(Request $request)
     {
-        $stock = new StockTaking;
-        $stock->date = date('Y-m-d',strtotime($request->input('date')));
-        $stock->warehouse_id = $request->input('warehouse_id');
-        $stock->crop_id = $request->input('crop_id');
-        $stock->district_id = $request->input('district_id');
-        $stock->amount = $request->input('amount');
+        $cropId = $request->input('crop_id');
+        $warehouseId = $request->input('warehouse_id');
 
-        $stock->save();
+        $warehouseCapacity = Warehouse::whereId($warehouseId)->first();
+        $storegeOccupied = StockTaking::where('warehouse_id', $warehouseId)->sum('amount');
 
-        return response()->json('Stock taken successfully');
+        $storageLeft = $warehouseCapacity->capacity - $storegeOccupied;
+
+        if($storageLeft > $request->input('amount')) {
+            $existing = StockTaking::where('crop_id', $cropId)->where('warehouse_id', $warehouseId)->latest()->first();
+            if($existing != null) {
+                $existing->amount += $request->input('amount');
+                $existing->save();
+            }
+            else {
+                $stock = new StockTaking;
+                $stock->date = date('Y-m-d',strtotime($request->input('date')));
+                $stock->warehouse_id = $warehouseId;
+                $stock->crop_id = $cropId;
+                $stock->district_id = $request->input('district_id');
+                $stock->amount = $request->input('amount');
+
+                $stock->save();
+            }
+
+            return response()->json('Stock taken successfully');
+        }
+        else {
+            return response()->json('The taken amount exceeded warehouse capacity');
+        }
     }
 
     /**

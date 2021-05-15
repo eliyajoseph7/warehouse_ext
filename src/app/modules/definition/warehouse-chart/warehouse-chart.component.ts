@@ -15,8 +15,22 @@ crops;
 stcaps;
 ownership;
 cropcap;
+cropsLocation;
 warecropcap;
 utilization;
+hide:boolean = true;
+ownLabel;
+ownershipColor;
+ownershipTitle;
+
+// filter variables
+selectedRegion = null;
+selectedDistrict = null;
+selectedOwnership = null;
+selectedRegistration = null;
+selectedCrop = null;
+selectedCropGrade = null;
+
   constructor(
     private def: DefinitionService,
     private manServ: ManagementService
@@ -43,7 +57,8 @@ utilization;
         this.districts = data;
         // console.log(this.districts)
       }
-    )
+    );
+    
   }
 
   selectCrop(cropId) {
@@ -57,19 +72,7 @@ utilization;
     console.log(id);
   }
 
-  ownershipType(type) {
-    if(type == 'gvt') {
-    }
-    if(type == 'prt') {
-    }
-  }
 
-  registration(type) {
-    if(type == 'yes') {
-    }
-    if(type == 'no') {
-    }
-  }
   getCrops() {
     this.manServ.getWarehouseCrops().subscribe(
       data => {
@@ -90,8 +93,12 @@ utilization;
   warehouseByOwnership() {
     this.def.getWarehouseByOwnership().subscribe(
       data => {
+        this.ownershipTitle = "Warehouse by Ownership";
+        this.ownLabel = "";
         this.ownership = data;
-        this.drawStorageByOwnershipChart()
+        this.ownershipColor = "#6AAC3D";
+        this.drawStorageByOwnershipChart();
+        this.hide = true;
       }
     );
   }
@@ -123,14 +130,122 @@ utilization;
     );
   }
 
+  cropsByLocation() {
+    this.def.storedCropsByLocation().subscribe(
+      data => {
+        this.cropsLocation = data;
+        this.drawStoredCropsByLocationChart();
+      }
+    );
+  }
+
   drawCharts() {
     this.storageByGrade();
     this.warehouseByOwnership();
     this.storageCropAndCapacity();
     this.warehouseCapacityAndCrop();
     this.warehouseUtilization();
+    this.cropsByLocation();
   }
 
+
+
+  drawStoredCropsByLocationChart() {
+    var myChart
+    document.getElementById('crop_location').innerHTML = "";
+    document.getElementById('crop_location').innerHTML = '<canvas id="crop_location_chart" style="height: 100%; width: 100%"></canvas>'
+    var ctx = document.getElementById("crop_location_chart");
+    var data = {
+      labels: this.cropsLocation[0],
+      datasets: [{
+        data: this.cropsLocation[1],
+        backgroundColor: "#5096D6",
+        borderColor: "white",
+        barThickness: 6,
+      }]
+    }
+
+     myChart = new Chart(ctx, {
+      type: 'bar',
+      data: data,
+      options: {
+
+        "hover": {
+          "animationDuration": 0
+        },
+        "animation": {
+          "duration": 1,
+          "onComplete": function() {
+            var chartInstance = this.chart,
+              ctx = chartInstance.ctx;
+
+            ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily );
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            ctx.fillStyle = "#AEAEAE";
+
+            this.data.datasets.forEach(function(dataset, i) {
+              var meta = chartInstance.controller.getDatasetMeta(i);
+              meta.data.forEach(function(bar, index) {
+                var data = numberWithCommas(dataset.data[index]);
+                ctx.fillText(data, bar._model.x - 4, bar._model.y - 3);
+              });
+            });
+          }
+        },
+        legend: {
+          "display": false,
+          position: "bottom"
+        },
+        tooltips: {
+          "enabled": false
+        },
+        scales: {
+          yAxes: [{
+            display: true,
+            scaleLabel: {
+              display: true,
+              // labelString: this.name
+            },
+            gridLines: {
+              display: true,
+              zeroLineColor: '#AEAEAE'
+            },
+            ticks: {
+              // max: Math.max(...data.datasets[0].data) - 10,
+              display: false,
+              beginAtZero: true,
+              fontColor: "#D6D6D6",
+            }
+          }],
+          xAxes: [{
+            gridLines: {
+              display: false
+            },
+            ticks: {
+              max: Math.max(...data.datasets[0].data) + 100,
+              beginAtZero: true,
+              display: true,
+              fontColor: "#D6D6D6",
+              autoSkip: false,
+              maxRotation: 90,
+              minRotation: 90
+            }
+          }]
+        },
+        responsive: true,
+        maintainAspectRatio: true,
+        layout: {
+          padding: {
+            left: 0,
+            right: 40,
+            top: 0,
+            bottom: 0
+          }
+        }
+      }
+    });
+  }
 
   drawStorageByGradeChart() {
     var myChart
@@ -146,7 +261,7 @@ utilization;
         barThickness: 6,
       }]
     }
-    console.log(ctx)
+
      myChart = new Chart(ctx, {
       type: 'horizontalBar',
       data: data,
@@ -169,7 +284,7 @@ utilization;
             this.data.datasets.forEach(function(dataset, i) {
               var meta = chartInstance.controller.getDatasetMeta(i);
               meta.data.forEach(function(bar, index) {
-                var data = dataset.data[index];
+                var data = numberWithCommas(dataset.data[index]);
                 ctx.fillText(data, bar._model.x + 18, bar._model.y + 7);
               });
             });
@@ -232,17 +347,25 @@ utilization;
       labels: this.ownership[0],
       datasets: [{
         data: this.ownership[1],
-        backgroundColor: "#6AAC3D",
+        backgroundColor: this.ownershipColor,
         barThickness: 10,
         minBarLength: 2,
       }]
     }
-    console.log(ctx)
+    let $this = this;
+
      myChart = new Chart(ctx, {
       type: 'horizontalBar',
       data: data,
       options: {
-
+        onClick: function (e) {
+          var category = this.getElementsAtEvent(e)[0]._model.datasetLabel;
+          var activePointLabel = this.getElementsAtEvent(e)[0]._model.label;
+          $this.drillDownToRegistration(activePointLabel);
+      },
+      onHover: (event, chartElement) => {
+        event.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+      },
         "hover": {
           "animationDuration": 0
         },
@@ -260,7 +383,7 @@ utilization;
             this.data.datasets.forEach(function(dataset, i) {
               var meta = chartInstance.controller.getDatasetMeta(i);
               meta.data.forEach(function(bar, index) {
-                var data = dataset.data[index];
+                var data = numberWithCommas(dataset.data[index]);
                 ctx.fillText(data, bar._model.x + 18, bar._model.y + 7);
               });
             });
@@ -278,7 +401,8 @@ utilization;
             display: true,
             scaleLabel: {
               display: true,
-              // labelString: this.name
+              labelString: this.ownLabel,
+              fontColor: "white"
             },
             gridLines: {
               display: false
@@ -336,7 +460,7 @@ utilization;
       }
     ]
     }
-    console.log(ctx)
+
      myChart = new Chart(ctx, {
       type: 'horizontalBar',
       data: data,
@@ -359,7 +483,7 @@ utilization;
             this.data.datasets.forEach(function(dataset, i) {
               var meta = chartInstance.controller.getDatasetMeta(i);
               meta.data.forEach(function(bar, index) {
-                var data = dataset.data[index];
+                var data = numberWithCommas(dataset.data[index]);
                 ctx.fillText(data, bar._model.x + 18, bar._model.y + 7);
               });
             });
@@ -448,7 +572,7 @@ utilization;
     };
 
 
-    console.log(ctx)
+
      myChart = new Chart(ctx, {
       type: 'horizontalBar',
       data: graphData,
@@ -471,8 +595,8 @@ utilization;
             this.data.datasets.forEach(function(dataset, i) {
               var meta = chartInstance.controller.getDatasetMeta(i);
               meta.data.forEach(function(bar, index) {
-                var data = dataset.data[index];
-                ctx.fillText(data, bar._model.x + 18, bar._model.y + 7);
+                var data = numberWithCommas(dataset.data[index]);
+                ctx.fillText(data, bar._model.x + 18, bar._model.y + 5);
               });
             });
           }
@@ -555,7 +679,7 @@ utilization;
     }
 
 
-    console.log(ctx)
+
      myChart = new Chart(ctx, {
       type: 'horizontalBar',
       data: data,
@@ -642,4 +766,25 @@ utilization;
       }
     });
   }
+
+
+  // getting specific warehouse ownership registration info
+  drillDownToRegistration(type) {
+    this.def.warehouseOwnershipRegistration(type).subscribe(
+      data => {
+        this.ownershipTitle = "Warehouse Registration";
+        this.ownLabel  = type
+        this.ownership = data;
+        this.ownershipColor = "#2678C5";
+        this.drawStorageByOwnershipChart();
+        this.hide = false;
+      }
+    )
+  }
+}
+
+function numberWithCommas(x) {
+  var parts = x.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
 }

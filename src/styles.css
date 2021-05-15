@@ -85,3 +85,13 @@ button {
 .btn-success {
     background-color: #117a28 !important;
 }
+
+.space {
+    padding-left: 12px;
+    padding-right: 0;
+}
+
+.space-2 {
+    padding-left: 5px;
+    padding-right: 12px;
+}

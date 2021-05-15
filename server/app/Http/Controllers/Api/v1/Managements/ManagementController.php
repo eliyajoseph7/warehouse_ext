@@ -63,4 +63,10 @@ class ManagementController extends Controller
         return response()->json('Warehouse deleted successfully');
 
     }
+
+
+    public function getWarehouses($regionId) {
+        $warehouses = Warehouse::where('region_id', $regionId)->get();
+        return response()->json($warehouses);
+    }
 }

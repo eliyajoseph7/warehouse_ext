@@ -1,14 +1,21 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-const baseUrl = 'http://stocks.multics.co.tz/public/api';
-// const baseUrl = 'http://127.0.0.1:8000/api';
+// const baseUrl = 'http://stocks.multics.co.tz/public/api';
+const baseUrl = 'http://127.0.0.1:8000/api';
 const url1 = baseUrl + '/warehouse'
 const url2 = baseUrl + '/markets'
 const url3 = baseUrl + '/crops'
 const url4 = baseUrl + '/stock-taking'
 const url5 = baseUrl + '/stock-movement'
 const url6 = baseUrl + '/goods-reception'
+const url7 = baseUrl + '/warehouses-by-location/'
+const url8 = baseUrl + '/regions-in-stock-taking'
+const url9 = baseUrl + '/districts-in-stock-taking/'
+const url10 = baseUrl + '/regions-in-stock-movement'
+const url11 = baseUrl + '/districts-in-stock-movement/'
+const url12= baseUrl + '/amount-to-be-received/'
+const url13= baseUrl + '/transfered-crops/'
 @Injectable({
   providedIn: 'root'
 })
@@ -100,8 +107,56 @@ export class ManagementService {
     return this.http.get(url5, {headers: this.headers});
   }
 
+  getAllRegionsAvailableInStockTaking() {
+    return this.http.get(url8, {headers: this.headers})
+  }
+
+  getAllDistrictsAvailableInStockTaking(region) {
+    return this.http.get(url9 + region, {headers: this.headers})
+  }
+
+  moveStock(data) {
+    return this.http.post(url5, data, {headers: this.headers});
+  }
+
+  getMovingStock(id) {
+    return this.http.get(url5 + '/' + id, {headers: this.headers});
+  }
+
+  moveStockUpdate(data, id) {
+    return this.http.put(url5 + '/' + id, data, {headers: this.headers});
+  }
+
+  deleteStockMovementData(id) {
+    return this.http.delete(url5 + '/' + id, {headers: this.headers});
+  }
   // goods reception
   goodsReceptionData() {
     return this.http.get(url6, {headers: this.headers});
+  }
+
+  getWarehouseDataByRegion(regionId) {
+    return this.http.get(url7 + regionId, {headers: this.headers})
+  }
+
+
+  getAllRegionsAvailableInStockMovement() {
+    return this.http.get(url10, {headers: this.headers})
+  }
+
+  getDistrictsAvailableInStockMovement(regionId) {
+    return this.http.get(url11 + regionId, {headers: this.headers})
+  }
+
+  getAmountToBeReceived(from, cropId) {
+    return this.http.get(url12 + from + '/' + cropId, {headers: this.headers})
+  }
+
+  getTransferedCrops(districtId) {
+    return this.http.get(url13 + districtId, {headers: this.headers});
+  }
+
+  receiveGoods(data) {
+    return this.http.post(url6, data, {headers: this.headers});
   }
 }

@@ -2,6 +2,8 @@ import { ManagementService } from './../../management.service';
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { ReceiveGoodsComponent } from '../actions/receive-goods/receive-goods.component';
 
 @Component({
   selector: 'app-goods-reception',
@@ -12,7 +14,8 @@ export class GoodsReceptionComponent implements OnInit, AfterViewInit {
 
   stocks;
   constructor(
-    private manServ:ManagementService
+    private manServ:ManagementService,
+    private dialog: MatDialog
   ) { }
 
   @ViewChild(DataTableDirective)
@@ -54,5 +57,17 @@ export class GoodsReceptionComponent implements OnInit, AfterViewInit {
       this.dtTrigger.next();
     }
 
+  }
+
+  onReceivingGoods() {
+    const dialogRef = this.dialog.open(ReceiveGoodsComponent, {
+      width: '590px',
+      height: '650px',
+      data: {action: 'add' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.getWarehouseStocks();
+    })
   }
 }

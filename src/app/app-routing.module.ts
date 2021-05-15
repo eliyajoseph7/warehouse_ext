@@ -20,7 +20,7 @@ const routes: Routes = [
         path: 'markets', component: MarketComponent
       },
       {path: 'crops', component: CropComponent},
-      {path: 'stocks', component: StockComponent}
+      {path: 'manage-stocks', component: StockComponent}
     ]
   }
 ];

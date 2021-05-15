@@ -1,9 +1,13 @@
+<div style="float: right; padding-top: 10px; padding-bottom: 10px;">
+    <button mat-button (click)="onReceivingGoods()"><span class="material-icons">add_circle_outline</span>Receive Goods</button>
+</div>
+
 <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table p-3">
     <thead>
         <tr>
-            <th>Date</th>
+            <th>Date Received</th>
             <th>Crop Name</th>
-            <th>Quantity</th>
+            <th>Amount (MT)</th>
             <th>Price</th>
             <th>Origin(council)</th>
             <th>Action</th>
@@ -12,9 +16,9 @@
     </thead>
     <tbody>
         <tr *ngFor="let stock of stocks">
-            <td>{{stock.date}}</td>
+            <td>{{stock.received_date}}</td>
             <td>{{stock.crop}}</td>
-            <td>{{stock.quantity}}</td>
+            <td>{{stock.received_amount}}</td>
             <td>{{stock.price}}</td>
             <td>{{stock.district}}</td>
             <td style="display: flex; flex-direction: row;">

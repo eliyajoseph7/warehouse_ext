@@ -1,7 +1,10 @@
+import { MatDialog } from '@angular/material/dialog';
+import { MoveStockComponent } from '../actions/move-stock/move-stock.component';
 import { ManagementService } from './../../management.service';
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
+import { DeleteDataComponent } from '../../delete-data/delete-data.component';
 
 @Component({
   selector: 'app-stock-movement',
@@ -12,7 +15,8 @@ export class StockMovementComponent implements OnInit, AfterViewInit {
 
   stocks;
   constructor(
-    private manServ: ManagementService
+    private manServ: ManagementService,
+    public dialog: MatDialog
   ) { }
 
   @ViewChild(DataTableDirective)
@@ -56,5 +60,41 @@ export class StockMovementComponent implements OnInit, AfterViewInit {
       this.dtTrigger.next();
     }
 
+  }
+
+  onStockMovement() {
+    const dialogRef = this.dialog.open(MoveStockComponent, {
+      width: '580px',
+      height: '685px',
+      data: {action: 'add' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.getWarehouseStocks();
+    })
+  }
+
+  editStock(id, from, to) {
+    const dialogRef = this.dialog.open(MoveStockComponent, {
+      width: '580px',
+      height: '685px',
+      data: {id: id, from: from, to: to, action: 'edit' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.getWarehouseStocks();
+    })
+  }
+
+  deleteStock(id) {
+    const dialogRef = this.dialog.open(DeleteDataComponent, {
+      width: '500px',
+      height: '300px',
+      data: {id: id, type: 'stock move' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.getWarehouseStocks();
+    })
   }
 }

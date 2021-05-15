@@ -1,3 +1,7 @@
+<div style="float: right; padding-top: 10px; padding-bottom: 10px;">
+    <button mat-button (click)="onStockMovement()"><span class="material-icons">add_circle_outline</span>Move Stock</button>
+</div>
+
 <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table p-3">
     <thead>
         <tr>
@@ -20,7 +24,7 @@
             <td>{{stock.from.name}}</td>
             <td>{{stock.to.name}}</td>
             <td style="display: flex; flex-direction: row;">
-                <mat-icon class="text-success act" (click)="editStock(stock.id, stock.region.id)">update</mat-icon>
+                <mat-icon class="text-success act" (click)="editStock(stock.id, stock.from, stock.to)">update</mat-icon>
                 <mat-icon class="text-danger act" (click)="deleteStock(stock.id)">delete_forever</mat-icon>
             </td>
         </tr>

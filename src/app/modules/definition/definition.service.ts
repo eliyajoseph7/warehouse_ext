@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 
-const baseUrl = 'http://stocks.multics.co.tz/public/api';
-// const baseUrl = 'http://127.0.0.1:8000/api';
+// const baseUrl = 'http://stocks.multics.co.tz/public/api';
+const baseUrl = 'http://127.0.0.1:8000/api';
 const url1 = baseUrl + '/regions'
 const url2 = baseUrl + '/districts'
 const url3 = baseUrl + '/storage-by-grade'
@@ -10,6 +10,8 @@ const url4 = baseUrl + '/warehouse-by-ownership'
 const url5 = baseUrl + '/stored-crop-and-capacity'
 const url6 = baseUrl + '/warehouse-capacity-and-crops'
 const url7 = baseUrl + '/warehouse-utilization'
+const url8 = baseUrl + '/warehouse-ownership-registration/'
+const url9 = baseUrl + '/crops-by-location'
 
 @Injectable({
   providedIn: 'root'
@@ -45,5 +47,13 @@ export class DefinitionService {
 
   warehouseUtilization() {
     return this.http.get(url7, {headers: this.headers});
+  }
+
+  warehouseOwnershipRegistration(type) {
+    return this.http.get(url8 + type, {headers: this.headers});
+  }
+
+  storedCropsByLocation() {
+    return this.http.get(url9, {headers: this.headers});
   }
 }

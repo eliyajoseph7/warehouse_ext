@@ -26,10 +26,12 @@ import { AddCropComponent } from './modules/management/add-crop/add-crop.compone
 import { StockTakingComponent } from './modules/management/stockComponents/stock-taking/stock-taking.component';
 import { StockMovementComponent } from './modules/management/stockComponents/stock-movement/stock-movement.component';
 import { GoodsReceptionComponent } from './modules/management/stockComponents/goods-reception/goods-reception.component';
-import { AddStockTakingComponent } from './modules/management/stockComponents/add-stock-taking/add-stock-taking.component';
+import { AddStockTakingComponent } from './modules/management/stockComponents/actions/add-stock-taking/add-stock-taking.component';
 import { DatePipe } from '@angular/common';
 import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MoveStockComponent } from './modules/management/stockComponents/actions/move-stock/move-stock.component';
+import { ReceiveGoodsComponent } from './modules/management/stockComponents/actions/receive-goods/receive-goods.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     StockTakingComponent,
     StockMovementComponent,
     GoodsReceptionComponent,
-    AddStockTakingComponent
+    AddStockTakingComponent,
+    MoveStockComponent,
+    ReceiveGoodsComponent
   ],
   imports: [
     BrowserModule,
