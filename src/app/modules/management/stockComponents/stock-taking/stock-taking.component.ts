@@ -1,4 +1,4 @@
-import { AddStockTakingComponent } from './../add-stock-taking/add-stock-taking.component';
+import { AddStockTakingComponent } from '../actions/add-stock-taking/add-stock-taking.component';
 import { ManagementService } from './../../management.service';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
