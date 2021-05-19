@@ -88,16 +88,26 @@ class StockTakingController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $warehouseId = $request->input('warehouse_id');
+
+        $warehouseCapacity = Warehouse::whereId($warehouseId)->first();
         $stock = StockTaking::find($id);
-        $stock->date = date('Y-m-d',strtotime($request->input('date')));
-        $stock->warehouse_id = $request->input('warehouse_id');
-        $stock->crop_id = $request->input('crop_id');
-        $stock->district_id = $request->input('district_id');
-        $stock->amount = $request->input('amount');
 
-        $stock->save();
+        $storageLeft = $warehouseCapacity->capacity - $stock->amount;
+        if ($storageLeft > $request->input('amount')) {
+            $stock->date = date('Y-m-d', strtotime($request->input('date')));
+            $stock->warehouse_id = $request->input('warehouse_id');
+            $stock->crop_id = $request->input('crop_id');
+            $stock->district_id = $request->input('district_id');
+            $stock->amount = $request->input('amount');
 
-        return response()->json('Stock updated successfully');
+            $stock->save();
+
+            return response()->json('Stock updated successfully');
+        }
+        else {
+            return response()->json('The taken amount exceeded warehouse capacity');
+        }
     }
 
     /**
