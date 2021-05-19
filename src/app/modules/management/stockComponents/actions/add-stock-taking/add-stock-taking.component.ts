@@ -139,8 +139,14 @@ export class AddStockTakingComponent implements OnInit {
   onUpdate() {
     if(this.stockTakingFormEdit.valid) {
       this.manServ.updateStockTakingsData(this.stockTakingFormEdit.value, this.data.id).subscribe(
-        resp => {
-          this.onNoClick();
+        (resp: string) => {
+          if(resp == "The taken amount exceeded warehouse capacity"){
+            this.snackBar.open('error', resp, {
+              duration: 5000,
+            });
+          }else {
+            this.onNoClick();
+          }
         }
       );
     }
