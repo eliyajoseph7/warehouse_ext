@@ -58,18 +58,36 @@ selectedCropGrade = null;
         // console.log(this.districts)
       }
     );
-    
   }
 
   selectCrop(cropId) {
+    this.selectedCrop = cropId;
+    this.filter();
+  }
 
+  selectCropGrade(grade) {
+    this.selectedCropGrade = grade;
+    this.filter();
   }
   selectRegion(id) {
+    this.selectedRegion = id;
     this.getDistricts(id);
+    this.filter();
   }
 
   selectDistrict(id) {
-    console.log(id);
+    this.selectedDistrict = id;
+    this.filter();
+  }
+
+  selectOwnership(type) {
+    this.selectedOwnership = type;
+    this.filter()
+  }
+
+  selectRegistration(registered) {
+    this.selectedRegistration = registered;
+    this.filter()
   }
 
 
@@ -780,6 +798,427 @@ selectedCropGrade = null;
         this.hide = false;
       }
     )
+  }
+
+
+  drawFilteredGraphs() {
+    this.drawStoredCropsByLocationChart();
+    this.drawStorageByGradeChart();
+    this.drawStorageByOwnershipChart();
+    this.drawStoredCropAndStorageCapacity();
+    this.drawWarehouseCapacityAndCrops();
+    this.drawWarehouseUtilization();
+  }
+  // filters
+  filter() {
+
+    // filter without involving district
+    if(this.selectedDistrict == null) {
+      // All combinations
+      if(this.selectedRegion != null && this.selectedOwnership != null && this.selectedRegistration != null
+        && this.selectedCrop != null && this.selectedCropGrade != null) {
+          this.def.filterWithExceptionOfDistrict(this.selectedRegion, this.selectedOwnership, this.selectedRegistration, this.selectedCrop, this.selectedCropGrade).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+
+      //==========One is excluded==========//
+      // only selectedCropGrade is null
+      if(this.selectedRegion != null && this.selectedOwnership != null && this.selectedRegistration != null
+        && this.selectedCrop != null && this.selectedCropGrade == null) {
+          this.def.filterDistrictExceptCropGrade(this.selectedRegion, this.selectedDistrict, this.selectedOwnership, this.selectedRegistration, this.selectedCrop).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+
+      // only crop is null
+      if(this.selectedRegion != null && this.selectedOwnership != null && this.selectedRegistration != null
+        && this.selectedCrop == null && this.selectedCropGrade != null) {
+          this.def.districtAndCropAreNull(this.selectedRegion, this.selectedOwnership, this.selectedRegistration, this.selectedCropGrade).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+
+      // only registration is null
+      if(this.selectedRegion != null && this.selectedOwnership != null && this.selectedRegistration == null
+        && this.selectedCrop != null && this.selectedCropGrade != null) {
+          this.def.districtAndRegistrationAreNull(this.selectedRegion, this.selectedOwnership, this.selectedCrop, this.selectedCropGrade).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+
+      // only ownership is null
+      if(this.selectedRegion != null && this.selectedOwnership == null && this.selectedRegistration != null
+        && this.selectedCrop != null && this.selectedCropGrade != null) {
+          this.def.districtAndOwnershipAreNull(this.selectedRegion, this.selectedRegistration, this.selectedCrop, this.selectedCropGrade).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+
+      // only region is null
+      if(this.selectedRegion == null && this.selectedOwnership != null && this.selectedRegistration != null
+        && this.selectedCrop != null && this.selectedCropGrade != null) {
+          this.def.districtAndRegionAreNull(this.selectedOwnership, this.selectedRegistration, this.selectedCrop, this.selectedCropGrade).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+      //==========end exclusion of one==========//
+
+      //==========two are excluded==========//
+      // crop and grade are null
+      if(this.selectedRegion != null && this.selectedOwnership != null && this.selectedRegistration != null
+        && this.selectedCrop == null && this.selectedCropGrade == null) {
+          this.def.filterByRegionOwnershipAndRegistration(this.selectedRegion, this.selectedOwnership, this.selectedRegistration).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+
+      // registration and grade are null
+      if(this.selectedRegion != null && this.selectedOwnership != null && this.selectedRegistration == null
+        && this.selectedCrop != null && this.selectedCropGrade == null) {
+          this.def.districtRegistrationAndGradeAreNull(this.selectedRegion, this.selectedOwnership, this.selectedCrop).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+
+      // ownership and grade are null
+      if(this.selectedRegion != null && this.selectedOwnership == null && this.selectedRegistration != null
+        && this.selectedCrop != null && this.selectedCropGrade == null) {
+          this.def.districtOwnershipAndGradeAreNull(this.selectedRegion, this.selectedRegistration, this.selectedCrop).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+
+      // region and grade are null
+      if(this.selectedRegion == null && this.selectedOwnership != null && this.selectedRegistration != null
+        && this.selectedCrop != null && this.selectedCropGrade == null) {
+          this.def.districtRegionAndGradeAreNull(this.selectedOwnership, this.selectedRegistration, this.selectedCrop).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+
+      // registration and crop are null
+      if(this.selectedRegion != null && this.selectedOwnership != null && this.selectedRegistration == null
+        && this.selectedCrop == null && this.selectedCropGrade != null) {
+          this.def.districtRegistrationAndCropAreNull(this.selectedRegion, this.selectedOwnership, this.selectedCropGrade).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+
+      // ownership and crop are null
+      if(this.selectedRegion != null && this.selectedOwnership == null && this.selectedRegistration != null
+        && this.selectedCrop == null && this.selectedCropGrade != null) {
+          this.def.districtOwnershipAndCropAreNull(this.selectedRegion, this.selectedRegistration, this.selectedCropGrade).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+
+      // region and crop are null
+      if(this.selectedRegion == null && this.selectedOwnership != null && this.selectedRegistration != null
+        && this.selectedCrop == null && this.selectedCropGrade != null) {
+          this.def.districtRegionAndCropAreNull(this.selectedOwnership, this.selectedRegistration, this.selectedCropGrade).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+
+      // ownership and registration are null
+      if(this.selectedRegion != null && this.selectedOwnership == null && this.selectedRegistration == null
+        && this.selectedCrop != null && this.selectedCropGrade != null) {
+          this.def.districtOwnershipAndRegistrationAreNull(this.selectedRegion, this.selectedCrop, this.selectedCropGrade).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+
+      // region and registration are null
+      if(this.selectedRegion == null && this.selectedOwnership != null && this.selectedRegistration == null
+        && this.selectedCrop != null && this.selectedCropGrade != null) {
+          this.def.districtRegionAndRegistrationAreNull(this.selectedOwnership, this.selectedCrop, this.selectedCropGrade).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+
+      // region and ownership are null
+      if(this.selectedRegion == null && this.selectedOwnership == null && this.selectedRegistration != null
+        && this.selectedCrop != null && this.selectedCropGrade != null) {
+          this.def.districtRegionAndOwnershipAreNull(this.selectedRegistration, this.selectedCrop, this.selectedCropGrade).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+      //==========end exclusion of two==========//
+
+      //==========three are excluded==========//
+      // region and ownership are not null
+      if(this.selectedRegion != null && this.selectedOwnership != null && this.selectedRegistration == null
+        && this.selectedCrop == null && this.selectedCropGrade == null) {
+
+      }
+
+      // region and registration are not null
+      if(this.selectedRegion != null && this.selectedOwnership == null && this.selectedRegistration != null
+        && this.selectedCrop == null && this.selectedCropGrade == null) {
+
+      }
+
+      // region and crop are not null
+      if(this.selectedRegion != null && this.selectedOwnership == null && this.selectedRegistration == null
+        && this.selectedCrop != null && this.selectedCropGrade == null) {
+
+      }
+
+      // region and grade are not null
+      if(this.selectedRegion != null && this.selectedOwnership == null && this.selectedRegistration == null
+        && this.selectedCrop == null && this.selectedCropGrade != null) {
+
+      }
+
+      // ownership and registration are not null
+      if(this.selectedRegion == null && this.selectedOwnership != null && this.selectedRegistration != null
+        && this.selectedCrop == null && this.selectedCropGrade == null) {
+
+      }
+
+      // ownership and crop are not null
+      if(this.selectedRegion == null && this.selectedOwnership != null && this.selectedRegistration == null
+        && this.selectedCrop != null && this.selectedCropGrade == null) {
+
+      }
+
+      // ownership and grade are not null
+      if(this.selectedRegion == null && this.selectedOwnership != null && this.selectedRegistration == null
+        && this.selectedCrop == null && this.selectedCropGrade != null) {
+
+      }
+
+      // registration and crop are not null
+      if(this.selectedRegion == null && this.selectedOwnership == null && this.selectedRegistration != null
+        && this.selectedCrop != null && this.selectedCropGrade == null) {
+
+      }
+
+      // registration and grade are not null
+      if(this.selectedRegion == null && this.selectedOwnership == null && this.selectedRegistration != null
+        && this.selectedCrop == null && this.selectedCropGrade != null) {
+
+      }
+
+      // crop and grade are not null
+      if(this.selectedRegion == null && this.selectedOwnership == null && this.selectedRegistration == null
+        && this.selectedCrop != null && this.selectedCropGrade != null) {
+
+      }
+
+      //==========end exclusion of three==========//
+
+      //==========only one is not null==========//
+      // region is not null
+      if(this.selectedRegion != null && this.selectedOwnership == null && this.selectedRegistration == null
+        && this.selectedCrop == null && this.selectedCropGrade == null) {
+          this.def.filterByOnlyRegion(this.selectedRegion).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+
+      // only ownership
+      if(this.selectedRegion == null && this.selectedOwnership != null && this.selectedRegistration == null
+        && this.selectedCrop == null && this.selectedCropGrade == null) {
+
+      }
+
+      // only registration
+      if(this.selectedRegion == null && this.selectedOwnership == null && this.selectedRegistration != null
+        && this.selectedCrop == null && this.selectedCropGrade == null) {
+
+      }
+
+      // only crop
+      if(this.selectedRegion == null && this.selectedOwnership == null && this.selectedRegistration == null
+        && this.selectedCrop != null && this.selectedCropGrade == null) {
+
+      }
+
+      // only grade
+      if(this.selectedRegion == null && this.selectedOwnership == null && this.selectedRegistration == null
+        && this.selectedCrop == null && this.selectedCropGrade != null) {
+
+      }
+      //==========end inclusion of only one==========//
+
+    }
+
+    // filter all
+    if(this.selectedDistrict != null){
+      // there is no need to include this.selectedDistrict since it is not null here, it will/must included in service functions parameters
+      // All combinations
+      if(this.selectedRegion != null && this.selectedOwnership != null && this.selectedRegistration != null
+        && this.selectedCrop != null && this.selectedCropGrade != null) {
+          this.def.filterByAllCombinations(this.selectedRegion, this.selectedDistrict, this.selectedOwnership, this.selectedRegistration, this.selectedCrop, this.selectedCropGrade).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+
+      //==========One is excluded==========//
+      // only selectedCropGrade is null
+      if(this.selectedRegion != null && this.selectedOwnership != null && this.selectedRegistration != null
+        && this.selectedCrop != null && this.selectedCropGrade == null) {
+          this.def.filterWithExceptionOfDistrictAndCropGrade(this.selectedRegion, this.selectedOwnership, this.selectedRegistration, this.selectedCrop).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+
+      // only crop is null
+      if(this.selectedRegion != null && this.selectedOwnership != null && this.selectedRegistration != null
+        && this.selectedCrop == null && this.selectedCropGrade != null) {
+
+      }
+
+      // only registration is null
+      if(this.selectedRegion != null && this.selectedOwnership != null && this.selectedRegistration == null
+        && this.selectedCrop != null && this.selectedCropGrade != null) {
+
+      }
+
+      // only ownership is null
+      if(this.selectedRegion != null && this.selectedOwnership == null && this.selectedRegistration != null
+        && this.selectedCrop != null && this.selectedCropGrade != null) {
+
+      }
+      //==========end exclusion of one==========//
+
+      //==========two are excluded==========//
+      // crop and grade are null
+      if(this.selectedRegion != null && this.selectedOwnership != null && this.selectedRegistration != null
+        && this.selectedCrop == null && this.selectedCropGrade == null) {
+          this.def.filterByOnlyRegionDistrictAndOwnershipRegistration(this.selectedRegion, this.selectedDistrict, this.selectedOwnership, this.selectedRegistration).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+
+      // registration and grade are null
+      if(this.selectedRegion != null && this.selectedOwnership != null && this.selectedRegistration == null
+        && this.selectedCrop != null && this.selectedCropGrade == null) {
+
+      }
+
+      // ownership and grade are null
+      if(this.selectedRegion != null && this.selectedOwnership == null && this.selectedRegistration != null
+        && this.selectedCrop != null && this.selectedCropGrade == null) {
+
+      }
+
+      // registration and crop are null
+      if(this.selectedRegion != null && this.selectedOwnership != null && this.selectedRegistration == null
+        && this.selectedCrop == null && this.selectedCropGrade != null) {
+
+      }
+
+      // ownership and crop are null
+      if(this.selectedRegion != null && this.selectedOwnership == null && this.selectedRegistration != null
+        && this.selectedCrop == null && this.selectedCropGrade != null) {
+
+      }
+
+      // ownership and registration are null
+      if(this.selectedRegion != null && this.selectedOwnership == null && this.selectedRegistration == null
+        && this.selectedCrop != null && this.selectedCropGrade != null) {
+
+      }
+      //==========end exclusion of two==========//
+
+      //==========three are excluded==========//
+      // region and ownership are not null
+      if(this.selectedRegion != null && this.selectedOwnership != null && this.selectedRegistration == null
+        && this.selectedCrop == null && this.selectedCropGrade == null) {
+          this.def.filterByOnlyRegionDistrictAndOwnership(this.selectedRegion, this.selectedDistrict, this.selectedOwnership).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+
+      // region and registration are not null
+      if(this.selectedRegion != null && this.selectedOwnership == null && this.selectedRegistration != null
+        && this.selectedCrop == null && this.selectedCropGrade == null) {
+
+      }
+
+      // region and crop are not null
+      if(this.selectedRegion != null && this.selectedOwnership == null && this.selectedRegistration == null
+        && this.selectedCrop != null && this.selectedCropGrade == null) {
+
+      }
+
+      // region and grade are not null
+      if(this.selectedRegion != null && this.selectedOwnership == null && this.selectedRegistration == null
+        && this.selectedCrop == null && this.selectedCropGrade != null) {
+
+      }
+
+      //==========end exclusion of three==========//
+
+      //==========only one is not null==========//
+      // region and district are not null
+      if(this.selectedRegion != null && this.selectedOwnership == null && this.selectedRegistration == null
+        && this.selectedCrop == null && this.selectedCropGrade == null) {
+          this.def.filterByOnlyRegionAndDistrict(this.selectedDistrict).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
+      }
+      //==========end inclusion of only one==========//
+
+    }
+  }
+
+  updateValues(data) {
+    this.stcaps = data[0];
+    this.ownership = data[1];
+    this.cropcap = data[2];
+    this.warecropcap = data[3];
+    this.utilization = data[4];
+    this.cropsLocation = data[5]
+
+    this.drawFilteredGraphs();
   }
 }
 
