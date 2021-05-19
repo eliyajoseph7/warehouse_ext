@@ -21,7 +21,7 @@
                 <h4><strong>District</strong></h4>
                 <hr class="divider-4">
             </div>
-            <mat-select class="form-control" placeholder="Select District">
+            <mat-select class="form-control" placeholder="Select District" (selectionChange)="selectDistrict($event.value)">
                 <mat-option *ngFor="let district of districts; let index=i" [value]="district.id">
                     <span class="">{{district.name.substring(0,1) | uppercase }}{{district.name.substring(1) | lowercase }}</span>
                 </mat-option>
@@ -41,9 +41,9 @@
                             <h4 style="width: 100%; background-color: #70AD47; color: #fff; padding-left: 3px;"><strong>Warehouse Ownership</strong></h4>
                             <hr class="divider-1">
                         </div>
-                        <mat-select class="form-control" placeholder="Select Ownership">
-                            <mat-option value="public">Public</mat-option>
-                            <mat-option value="private">Private</mat-option>
+                        <mat-select class="form-control" placeholder="Select Ownership" (selectionChange)="selectOwnership($event.value)">
+                            <mat-option value="Government">Government</mat-option>
+                            <mat-option value="Private">Private</mat-option>
                         </mat-select>
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                             <h4 style="width: 100%; background-color: #FFC000; color: #fff; padding-left: 3px;"><strong>WRRB Registration</strong></h4>
                             <hr class="divider-1">
                         </div>
-                        <mat-select class="form-control" placeholder="Select..">
+                        <mat-select class="form-control" placeholder="Select.." (selectionChange)="selectRegistration($event.value)">
                             <mat-option value="yes">Yes</mat-option>
                             <mat-option value="no">No</mat-option>
                         </mat-select>
@@ -82,11 +82,11 @@
                             <h4 style="width: 100%; background-color: #ED7D31; color: #fff; padding-left: 3px;"><strong>Crop Grade</strong></h4>
                             <hr class="divider-1">
                         </div>
-                        <mat-select class="form-control" placeholder="Select..">
-                            <mat-option value="Grade 1">Grade 1</mat-option>
-                            <mat-option value="Grade 2">Grade 2</mat-option>
-                            <mat-option value="Grade 3">Grade 3</mat-option>
-                            <mat-option value="Grade 4">Grade 4</mat-option>
+                        <mat-select class="form-control" placeholder="Select.." (selectionChange)="selectCropGrade($event.value)">
+                            <mat-option value="Grade A">Grade A</mat-option>
+                            <mat-option value="Grade B">Grade B</mat-option>
+                            <mat-option value="Grade C">Grade C</mat-option>
+                            <mat-option value="Grade D">Grade D</mat-option>
                         </mat-select>
                     </div>
                 </div>
