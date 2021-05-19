@@ -1,8 +1,8 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-// const baseUrl = 'http://stocks.multics.co.tz/public/api';
-const baseUrl = 'http://127.0.0.1:8000/api';
+const baseUrl = 'http://stocks.multics.co.tz/public/api';
+// const baseUrl = 'http://127.0.0.1:8000/api';
 const url1 = baseUrl + '/warehouse'
 const url2 = baseUrl + '/markets'
 const url3 = baseUrl + '/crops'
