@@ -147,4 +147,88 @@ class FilterController extends Controller
         $data = app('App\Http\Controllers\Api\v1\Filters\Categories\excludeDistrict\RegionAndOwnershipAreNullController')->filterWithoutRegionAndOwnership($registration, $cropId , $grade);
         return response()->json($data);
     }
+
+    // only region and ownership
+    public function onlyRegionAndOwnership($regionId, $ownership) {
+        $data = app('App\Http\Controllers\Api\v1\Filters\Categories\excludeDistrict\RegionAndOwnershipController')->filterWithRegionAndOwnership($regionId, $ownership);
+        return response()->json($data);
+    }
+
+    // only region and registration
+    public function onlyRegionAndRegistration($regionId, $registration) {
+        $data = app('App\Http\Controllers\Api\v1\Filters\Categories\excludeDistrict\RegionAndRegistrationController')->filterWithRegionAndRegistration($regionId, $registration);
+        return response()->json($data);
+    }
+
+    // only region and crop
+    public function onlyRegionAndCrop($regionId, $crop) {
+        $data = app('App\Http\Controllers\Api\v1\Filters\Categories\excludeDistrict\RegionAndCropController')->filterWithRegionAndCrop($regionId, $crop);
+        return response()->json($data);
+    }
+
+    // only region and grade
+    public function onlyRegionAndGrade($regionId, $grade) {
+        $data = app('App\Http\Controllers\Api\v1\Filters\Categories\excludeDistrict\RegionAndGradeController')->filterWithRegionAndGrade($regionId, $grade);
+        return response()->json($data);
+    }
+
+    // only ownership and registration
+    public function onlyOwnershipAndRegistration($ownership, $registration) {
+        $data = app('App\Http\Controllers\Api\v1\Filters\Categories\excludeDistrict\OwnershipAndRegistrationController')->filterWithOwnershipAndRegistration($ownership, $registration);
+        return response()->json($data);
+    }
+
+    // only ownership and crop
+    public function onlyOwnershipAndCrop($ownership, $crop) {
+        $data = app('App\Http\Controllers\Api\v1\Filters\Categories\excludeDistrict\OwnershipAndCropController')->filterWithOwnershipAndCrop($ownership, $crop);
+        return response()->json($data);
+    }
+
+    // only ownership and grade
+    public function onlyOwnershipAndGrade($ownership, $grade) {
+        $data = app('App\Http\Controllers\Api\v1\Filters\Categories\excludeDistrict\OwnershipAndGradeController')->filterWithOwnershipAndGrade($ownership, $grade);
+        return response()->json($data);
+    }
+
+    // only registration and crop
+    public function onlyRegistrationAndCrop($registration, $crop) {
+        $data = app('App\Http\Controllers\Api\v1\Filters\Categories\excludeDistrict\RegistrationAndCropController')->filterWithRegistrationAndCrop($registration, $crop);
+        return response()->json($data);
+    }
+
+    // only registration and grade
+    public function onlyRegistrationAndGrade($registration, $grade) {
+        $data = app('App\Http\Controllers\Api\v1\Filters\Categories\excludeDistrict\RegistrationAndGradeController')->filterWithRegistrationAndGrade($registration, $grade);
+        return response()->json($data);
+    }
+
+    // only crop and grade
+    public function onlyCropAndGrade($crop, $grade) {
+        $data = app('App\Http\Controllers\Api\v1\Filters\Categories\excludeDistrict\CropAndGradeController')->filterWithCropAndGrade($crop, $grade);
+        return response()->json($data);
+    }
+
+    // only ownership
+    public function onlyOwnership($ownership) {
+        $data = app('App\Http\Controllers\Api\v1\Filters\Categories\excludeDistrict\OwnershipController')->filterWithOnlyOwnership($ownership);
+        return response()->json($data);
+    }
+
+    // only registration
+    public function onlyRegistration($registration) {
+        $data = app('App\Http\Controllers\Api\v1\Filters\Categories\excludeDistrict\RegistrationController')->filterWithOnlyRegistration($registration);
+        return response()->json($data);
+    }
+
+    // only crop
+    public function onlyCrop($crop) {
+        $data = app('App\Http\Controllers\Api\v1\Filters\Categories\excludeDistrict\CropController')->filterWithOnlyCrop($crop);
+        return response()->json($data);
+    }
+
+    // only crop grade
+    public function onlyCropGrade($grade) {
+        $data = app('App\Http\Controllers\Api\v1\Filters\Categories\excludeDistrict\CropGradeController')->filterWithOnlyCropGrade($grade);
+        return response()->json($data);
+    }
 }
