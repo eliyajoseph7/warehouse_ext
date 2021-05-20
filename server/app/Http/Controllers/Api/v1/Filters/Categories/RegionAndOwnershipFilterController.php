@@ -43,7 +43,7 @@ class RegionAndOwnershipFilterController extends Controller
         $category = collect([]);
         $capacity = collect([]);
         $collection = collect([]);
-        $warehouses = Warehouse::where('region_id', $regionId)->where('type', $ownership)->select(DB::raw('COUNT(capacity) as capacity'), 'type')->groupBy('type')->get();
+        $warehouses = Warehouse::where('region_id', $regionId)->where('type', $ownership)->select(DB::raw('COUNT(DISTINCT(warehouses.name)) as capacity'), 'type')->groupBy('type')->get();
 
         foreach($warehouses as $warehouse) {
             $category->push($warehouse->type);

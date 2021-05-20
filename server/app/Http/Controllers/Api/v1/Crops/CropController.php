@@ -16,7 +16,11 @@ class CropController extends Controller
     public function index()
     {
         $crops = Crop::all();
-        return response()->json($crops);
+        $grades = Crop::distinct('grade')->select('grade')->orderBy('grade', 'ASC')->get();
+        $collection = collect([]);
+
+        $collection->push($crops, $grades);
+        return response()->json($collection);
     }
 
 

@@ -83,10 +83,9 @@
                             <hr class="divider-1">
                         </div>
                         <mat-select class="form-control" placeholder="Select.." (selectionChange)="selectCropGrade($event.value)">
-                            <mat-option value="Grade A">Grade A</mat-option>
-                            <mat-option value="Grade B">Grade B</mat-option>
-                            <mat-option value="Grade C">Grade C</mat-option>
-                            <mat-option value="Grade D">Grade D</mat-option>
+                            <mat-option *ngFor="let crop of cropGrades; let index=i" [value]="crop.grade">
+                                {{crop.grade}}
+                            </mat-option>
                         </mat-select>
                     </div>
                 </div>

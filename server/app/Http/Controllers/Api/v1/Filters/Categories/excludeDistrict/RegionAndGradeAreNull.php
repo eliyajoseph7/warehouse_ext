@@ -56,12 +56,12 @@ class RegionAndGradeAreNull extends Controller
             $warehouses = Warehouse::join('stock_takings', 'stock_takings.warehouse_id', '=', 'warehouses.id')
                                     ->where('type', $ownership)->whereNotNull('licensed_by')
                                     ->where('crop_id', $crop)
-                                    ->select(DB::raw('COUNT(capacity) as capacity'), 'type')->groupBy('type')->get();
+                                    ->select(DB::raw('COUNT(DISTINCT(warehouses.name)) as capacity'), 'type')->groupBy('type')->get();
         }else {
             $warehouses = Warehouse::join('stock_takings', 'stock_takings.warehouse_id', '=', 'warehouses.id')
                                     ->where('type', $ownership)->whereNull('licensed_by')
                                     ->where('crop_id', $crop)
-                                    ->select(DB::raw('COUNT(capacity) as capacity'), 'type')->groupBy('type')->get();
+                                    ->select(DB::raw('COUNT(DISTINCT(warehouses.name)) as capacity'), 'type')->groupBy('type')->get();
         }
 
         foreach($warehouses as $warehouse) {

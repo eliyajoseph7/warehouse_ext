@@ -14,8 +14,8 @@ const url8 = baseUrl + '/regions-in-stock-taking'
 const url9 = baseUrl + '/districts-in-stock-taking/'
 const url10 = baseUrl + '/regions-in-stock-movement'
 const url11 = baseUrl + '/districts-in-stock-movement/'
-const url12= baseUrl + '/amount-to-be-received/'
-const url13= baseUrl + '/transfered-crops/'
+const url12 = baseUrl + '/amount-to-be-received/'
+const url13 = baseUrl + '/transfered-crops/'
 @Injectable({
   providedIn: 'root'
 })

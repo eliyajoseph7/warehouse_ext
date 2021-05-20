@@ -51,10 +51,10 @@ class RegionOwnershipRegistrationFilterController extends Controller
         $collection = collect([]);
         if($registration == 'yes') {
             $warehouses = Warehouse::where('region_id', $regionId)->where('type', $ownership)->whereNotNull('licensed_by')
-                                    ->select(DB::raw('COUNT(capacity) as capacity'), 'type')->groupBy('type')->get();
+                                    ->select(DB::raw('COUNT(DISTINCT(warehouses.name)) as capacity'), 'type')->groupBy('type')->get();
         }else {
             $warehouses = Warehouse::where('region_id', $regionId)->where('type', $ownership)->whereNull('licensed_by')
-                                    ->select(DB::raw('COUNT(capacity) as capacity'), 'type')->groupBy('type')->get();
+                                    ->select(DB::raw('COUNT(DISTINCT(warehouses.name)) as capacity'), 'type')->groupBy('type')->get();
         }
 
         foreach($warehouses as $warehouse) {

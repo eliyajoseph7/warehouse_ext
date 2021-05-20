@@ -30,7 +30,7 @@ class DrawChartController extends Controller
     $category = collect([]);
     $capacity = collect([]);
     $collection = collect([]);
-    $warehouses = Warehouse::select(DB::raw('COUNT(capacity) as capacity'), 'type')->groupBy('type')->get();
+    $warehouses = Warehouse::select(DB::raw('COUNT(DISTINCT(warehouses.name)) as capacity'), 'type')->groupBy('type')->get();
 
     foreach($warehouses as $warehouse) {
         $category->push($warehouse->type);

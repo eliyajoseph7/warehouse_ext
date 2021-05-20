@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\v1\Filters\Categories;
 use App\Http\Controllers\Controller;
 use App\Models\StockTaking;
 use App\Models\Warehouse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class RegionAndDistrictFilterController extends Controller
@@ -43,7 +42,7 @@ class RegionAndDistrictFilterController extends Controller
         $category = collect([]);
         $capacity = collect([]);
         $collection = collect([]);
-        $warehouses = Warehouse::where('district_id', $distictId)->select(DB::raw('COUNT(capacity) as capacity'), 'type')->groupBy('type')->get();
+        $warehouses = Warehouse::where('district_id', $distictId)->select(DB::raw('COUNT(DISTINCT(warehouses.name)) as capacity'), 'type')->groupBy('type')->get();
 
         foreach($warehouses as $warehouse) {
             $category->push($warehouse->type);

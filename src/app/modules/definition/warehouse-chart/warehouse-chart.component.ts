@@ -9,6 +9,7 @@ import  {Chart} from 'node_modules/chart.js';
   styleUrls: ['./warehouse-chart.component.css']
 })
 export class WarehouseChartComponent implements OnInit {
+cropGrades;
 regions;
 districts;
 crops;
@@ -94,7 +95,8 @@ selectedCropGrade = null;
   getCrops() {
     this.manServ.getWarehouseCrops().subscribe(
       data => {
-        this.crops = data;
+        this.crops = data[0];
+        this.cropGrades = data[1];
       }
     );
   }
@@ -982,61 +984,101 @@ selectedCropGrade = null;
       // region and ownership are not null
       if(this.selectedRegion != null && this.selectedOwnership != null && this.selectedRegistration == null
         && this.selectedCrop == null && this.selectedCropGrade == null) {
-
+          this.def.districtRegionAndOwnershipAreNotNull(this.selectedRegion, this.selectedOwnership).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
       }
 
       // region and registration are not null
       if(this.selectedRegion != null && this.selectedOwnership == null && this.selectedRegistration != null
         && this.selectedCrop == null && this.selectedCropGrade == null) {
-
+          this.def.districtRegionAndRegistrationAreNotNull(this.selectedRegion, this.selectedRegistration).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
       }
 
       // region and crop are not null
       if(this.selectedRegion != null && this.selectedOwnership == null && this.selectedRegistration == null
         && this.selectedCrop != null && this.selectedCropGrade == null) {
-
+          this.def.districtRegionAndCropAreNotNull(this.selectedRegion, this.selectedCrop).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
       }
 
       // region and grade are not null
       if(this.selectedRegion != null && this.selectedOwnership == null && this.selectedRegistration == null
         && this.selectedCrop == null && this.selectedCropGrade != null) {
-
+          this.def.districtRegionAndCropGradeAreNotNull(this.selectedRegion, this.selectedCropGrade).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
       }
 
       // ownership and registration are not null
       if(this.selectedRegion == null && this.selectedOwnership != null && this.selectedRegistration != null
         && this.selectedCrop == null && this.selectedCropGrade == null) {
-
+          this.def.districtOwnershipAndRegistrationAreNotNull(this.selectedOwnership, this.selectedRegistration).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
       }
 
       // ownership and crop are not null
       if(this.selectedRegion == null && this.selectedOwnership != null && this.selectedRegistration == null
         && this.selectedCrop != null && this.selectedCropGrade == null) {
-
+          this.def.districtOwnershipAndCropAreNotNull(this.selectedOwnership, this.selectedCrop).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
       }
 
       // ownership and grade are not null
       if(this.selectedRegion == null && this.selectedOwnership != null && this.selectedRegistration == null
         && this.selectedCrop == null && this.selectedCropGrade != null) {
-
+          this.def.districtOwnershipAndCropGradeAreNotNull(this.selectedOwnership, this.selectedCropGrade).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
       }
 
       // registration and crop are not null
       if(this.selectedRegion == null && this.selectedOwnership == null && this.selectedRegistration != null
         && this.selectedCrop != null && this.selectedCropGrade == null) {
-
+          this.def.districtRegistrationAndCropAreNotNull(this.selectedRegistration, this.selectedCrop).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
       }
 
       // registration and grade are not null
       if(this.selectedRegion == null && this.selectedOwnership == null && this.selectedRegistration != null
         && this.selectedCrop == null && this.selectedCropGrade != null) {
-
+          this.def.districtRegistrationAndCropGradeAreNotNull(this.selectedRegistration, this.selectedCropGrade).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
       }
 
       // crop and grade are not null
       if(this.selectedRegion == null && this.selectedOwnership == null && this.selectedRegistration == null
         && this.selectedCrop != null && this.selectedCropGrade != null) {
-
+          this.def.districtCropAndCropGradeAreNotNull(this.selectedCrop, this.selectedCropGrade).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
       }
 
       //==========end exclusion of three==========//
@@ -1055,25 +1097,41 @@ selectedCropGrade = null;
       // only ownership
       if(this.selectedRegion == null && this.selectedOwnership != null && this.selectedRegistration == null
         && this.selectedCrop == null && this.selectedCropGrade == null) {
-
+          this.def.districtOwnershipAreNotNull(this.selectedOwnership).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
       }
 
       // only registration
       if(this.selectedRegion == null && this.selectedOwnership == null && this.selectedRegistration != null
         && this.selectedCrop == null && this.selectedCropGrade == null) {
-
+          this.def.districtRegistrationAreNotNull(this.selectedRegistration).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
       }
 
       // only crop
       if(this.selectedRegion == null && this.selectedOwnership == null && this.selectedRegistration == null
         && this.selectedCrop != null && this.selectedCropGrade == null) {
-
+          this.def.districtCropAreNotNull(this.selectedCrop).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
       }
 
       // only grade
       if(this.selectedRegion == null && this.selectedOwnership == null && this.selectedRegistration == null
         && this.selectedCrop == null && this.selectedCropGrade != null) {
-
+          this.def.districtCropGradeAreNotNull(this.selectedCropGrade).subscribe(
+            data => {
+              this.updateValues(data);
+            }
+          );
       }
       //==========end inclusion of only one==========//
 

@@ -57,12 +57,12 @@ class ExceptCropGradeOnlyController extends Controller
             $warehouses = Warehouse::join('stock_takings', 'stock_takings.warehouse_id', '=', 'warehouses.id')
                                     ->where('region_id', $regionId)->where('type', $ownership)->whereNotNull('licensed_by')
                                     ->where('crop_id', $crop)->where('warehouses.district_id', $districtId)
-                                    ->select(DB::raw('COUNT(capacity) as capacity'), 'type')->groupBy('type')->get();
+                                    ->select(DB::raw('COUNT(DISTINCT(warehouses.name)) as capacity'), 'type')->groupBy('type')->get();
         }else {
             $warehouses = Warehouse::join('stock_takings', 'stock_takings.warehouse_id', '=', 'warehouses.id')
                                     ->where('region_id', $regionId)->where('type', $ownership)->whereNull('licensed_by')
                                     ->where('crop_id', $crop)->where('warehouses.district_id', $districtId)
-                                    ->select(DB::raw('COUNT(capacity) as capacity'), 'type')->groupBy('type')->get();
+                                    ->select(DB::raw('COUNT(DISTINCT(warehouses.name)) as capacity'), 'type')->groupBy('type')->get();
         }
 
         foreach($warehouses as $warehouse) {

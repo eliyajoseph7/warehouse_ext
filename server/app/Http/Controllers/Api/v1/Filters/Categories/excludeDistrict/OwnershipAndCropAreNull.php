@@ -29,14 +29,14 @@ class OwnershipAndCropAreNull extends Controller
         $collection = collect([]);
         if($registration == 'yes') {
             $warehouses = Warehouse::join('stock_takings', 'stock_takings.warehouse_id', '=', 'warehouses.id')
-                                    ->where('grade', $grade)
+                                    ->where('crops.grade', $grade)
                                     ->where('region_id', $regionId)->whereNotNull('licensed_by')
-                                    ->select(DB::raw('SUM(capacity) as capacity'), 'grade')->groupBy('grade')->get();
+                                    ->select(DB::raw('SUM(capacity) as capacity'), 'warehouses.grade')->groupBy('warehouses.grade')->get();
         }else{
             $warehouses = Warehouse::join('stock_takings', 'stock_takings.warehouse_id', '=', 'warehouses.id')
                                     ->where('region_id', $regionId)->whereNull('licensed_by')
-                                    ->where('grade', $grade)
-                                    ->select(DB::raw('SUM(capacity) as capacity'), 'grade')->groupBy('grade')->get();
+                                    ->where('crops.grade', $grade)
+                                    ->select(DB::raw('SUM(capacity) as capacity'), 'warehouses.grade')->groupBy('warehouses.grade')->get();
         }
 
         foreach($warehouses as $warehouse) {
@@ -55,13 +55,13 @@ class OwnershipAndCropAreNull extends Controller
         if($registration == 'yes') {
             $warehouses = Warehouse::join('stock_takings', 'stock_takings.warehouse_id', '=', 'warehouses.id')
                                     ->where('region_id', $regionId)->whereNotNull('licensed_by')
-                                    ->where('grade', $grade)
-                                    ->select(DB::raw('COUNT(capacity) as capacity'), 'type')->groupBy('type')->get();
+                                    ->where('crops.grade', $grade)
+                                    ->select(DB::raw('COUNT(DISTINCT(warehouses.name)) as capacity'), 'type')->groupBy('type')->get();
         }else {
             $warehouses = Warehouse::join('stock_takings', 'stock_takings.warehouse_id', '=', 'warehouses.id')
                                     ->where('region_id', $regionId)->whereNull('licensed_by')
-                                    ->where('grade', $grade)
-                                    ->select(DB::raw('COUNT(capacity) as capacity'), 'type')->groupBy('type')->get();
+                                    ->where('crops.grade', $grade)
+                                    ->select(DB::raw('COUNT(DISTINCT(warehouses.name)) as capacity'), 'type')->groupBy('type')->get();
         }
 
         foreach($warehouses as $warehouse) {
@@ -79,24 +79,28 @@ class OwnershipAndCropAreNull extends Controller
         if($registration == 'yes') {
             $warehouseCapacity = Warehouse::join('stock_takings', 'stock_takings.warehouse_id', '=', 'warehouses.id')
                                             ->where('region_id', $regionId)
-                                            ->whereNotNull('licensed_by')->where('grade', $grade)
+                                            ->whereNotNull('licensed_by')
+                                            ->where('crops.grade', $grade)
                                             ->sum('capacity');
 
             $storedCrops = StockTaking::join('districts', 'districts.id', '=', 'stock_takings.district_id')
                                         ->join('warehouses', 'warehouses.id', '=', 'stock_takings.warehouse_id')
                                         ->where('warehouses.region_id', $regionId)
-                                        ->whereNotNull('licensed_by')->where('grade', $grade)
+                                        ->whereNotNull('licensed_by')
+                                        ->where('crops.grade', $grade)
                                         ->sum('amount');
         }else {
             $warehouseCapacity = Warehouse::join('stock_takings', 'stock_takings.warehouse_id', '=', 'warehouses.id')
                                             ->where('region_id', $regionId)
-                                            ->whereNull('licensed_by')->where('grade', $grade)
+                                            ->whereNull('licensed_by')
+                                            ->where('crops.grade', $grade)
                                             ->sum('capacity');
 
             $storedCrops = StockTaking::join('districts', 'districts.id', '=', 'stock_takings.district_id')
                                         ->join('warehouses', 'warehouses.id', '=', 'stock_takings.warehouse_id')
                                         ->where('warehouses.region_id', $regionId)
-                                        ->whereNull('licensed_by')->where('grade', $grade)
+                                        ->whereNull('licensed_by')
+                                        ->where('crops.grade', $grade)
                                         ->sum('amount');
         }
 
@@ -116,7 +120,7 @@ class OwnershipAndCropAreNull extends Controller
                                 ->join('regions', 'regions.id', '=', 'districts.region_id')
                                 ->join('warehouses', 'warehouses.id', '=', 'stock_takings.warehouse_id')
                                 ->where('regions.id', $regionId)->whereNotNull('licensed_by')
-                                ->where('grade', $grade)
+                                ->where('crops.grade', $grade)
                                 ->select('regions.name', DB::Raw("SUM(amount) as amount"), DB::Raw('SUM(warehouses.capacity) as capacity'))
                                 ->groupBy('regions.name')
                                 ->get();
@@ -125,7 +129,7 @@ class OwnershipAndCropAreNull extends Controller
                                 ->join('regions', 'regions.id', '=', 'districts.region_id')
                                 ->join('warehouses', 'warehouses.id', '=', 'stock_takings.warehouse_id')
                                 ->where('regions.id', $regionId)->whereNull('licensed_by')
-                                ->where('grade', $grade)
+                                ->where('crops.grade', $grade)
                                 ->select('regions.name', DB::Raw("SUM(amount) as amount"), DB::Raw('SUM(warehouses.capacity) as capacity'))
                                 ->groupBy('regions.name')
                                 ->get();
@@ -151,7 +155,7 @@ class OwnershipAndCropAreNull extends Controller
             $data = StockTaking::join('districts', 'districts.id', '=', 'stock_takings.district_id')
                             ->join('regions', 'regions.id', '=', 'districts.region_id')
                             ->where('regions.id', $regionId)->whereNotNull('licensed_by')
-                            ->where('grade', $grade)
+                            ->where('crops.grade', $grade)
                             ->join('warehouses', 'warehouses.id', '=', 'stock_takings.warehouse_id')
                             ->select('regions.name', DB::Raw("SUM(amount) as amount"), DB::Raw('SUM(warehouses.capacity) as capacity'))
                             ->groupBy('regions.name')
@@ -162,7 +166,7 @@ class OwnershipAndCropAreNull extends Controller
                             ->join('regions', 'regions.id', '=', 'districts.region_id')
                             ->where('regions.id', $regionId)->whereNull('licensed_by')
                             ->join('warehouses', 'warehouses.id', '=', 'stock_takings.warehouse_id')
-                            ->where('grade', $grade)
+                            ->where('crops.grade', $grade)
                             ->select('regions.name', DB::Raw("SUM(amount) as amount"), DB::Raw('SUM(warehouses.capacity) as capacity'))
                             ->groupBy('regions.name')
                             ->orderBy('amount')
@@ -203,7 +207,7 @@ class OwnershipAndCropAreNull extends Controller
                                 ->join('warehouses', 'warehouses.id', '=', 'stock_takings.warehouse_id')
                                 ->where('regions.id', $regionId)->whereNotNull('licensed_by')
                                 ->select('regions.name', DB::Raw("SUM(amount) as amount"))
-                                ->where('grade', $grade)
+                                ->where('crops.grade', $grade)
                                 ->groupBy('regions.name')
                                 ->get();
         }else {
@@ -212,7 +216,7 @@ class OwnershipAndCropAreNull extends Controller
                                 ->join('warehouses', 'warehouses.id', '=', 'stock_takings.warehouse_id')
                                 ->where('regions.id', $regionId)->whereNull('licensed_by')
                                 ->select('regions.name', DB::Raw("SUM(amount) as amount"))
-                                ->where('grade', $grade)
+                                ->where('crops.grade', $grade)
                                 ->groupBy('regions.name')
                                 ->get();
         }
