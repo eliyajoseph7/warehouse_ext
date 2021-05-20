@@ -113,3 +113,43 @@ Route::get('district-region-and-registration-are-null/{ownership}/{crop}/{grade}
 
 // district, region and ownership are null
 Route::get('district-region-and-ownership-are-null/{registration}/{crop}/{grade}', 'Api\v1\Filters\FilterController@districtRegionAndOwnershipnAreNull');
+
+// only region and ownership
+Route::get('only-region-and-ownership/{regionId}/{ownership}', 'Api\v1\Filters\FilterController@onlyRegionAndOwnership');
+
+// only region and registration
+Route::get('only-region-and-registration/{regionId}/{registration}', 'Api\v1\Filters\FilterController@onlyRegionAndRegistration');
+
+// only region and crop
+Route::get('only-region-and-crop/{regionId}/{cropId}', 'Api\v1\Filters\FilterController@onlyRegionAndCrop');
+
+// only region and grade
+Route::get('only-region-and-grade/{regionId}/{grade}', 'Api\v1\Filters\FilterController@onlyRegionAndGrade');
+
+// only ownership and registration
+Route::get('only-ownership-and-registration/{ownership}/{registration}', 'Api\v1\Filters\FilterController@onlyOwnershipAndRegistration');
+
+// only ownership and crop
+Route::get('only-ownership-and-crop/{ownership}/{crop}', 'Api\v1\Filters\FilterController@onlyOwnershipAndCrop');
+
+// only ownership and grade
+Route::get('only-ownership-and-grade/{ownership}/{grade}', 'Api\v1\Filters\FilterController@onlyOwnershipAndGrade');
+
+// only registration and crop
+Route::get('only-registration-and-crop/{registration}/{crop}', 'Api\v1\Filters\FilterController@onlyRegistrationAndCrop');
+
+// only registration and grade
+Route::get('only-registration-and-grade/{registration}/{grade}', 'Api\v1\Filters\FilterController@onlyRegistrationAndGrade');
+
+// only crop and grade
+Route::get('only-crop-and-grade/{crop}/{grade}', 'Api\v1\Filters\FilterController@onlyCropAndGrade');
+
+// only ownership
+Route::get('only-ownership/{ownership}', 'Api\v1\Filters\FilterController@onlyOwnership');
+
+// only registration
+Route::get('only-registration/{registration}', 'Api\v1\Filters\FilterController@onlyRegistration');
+// only crop
+Route::get('only-crop/{crop}', 'Api\v1\Filters\FilterController@onlyCrop');
+// only grade
+Route::get('only-grade/{grade}', 'Api\v1\Filters\FilterController@onlyCropGrade');
